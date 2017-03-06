@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -21,6 +22,7 @@
         </activity>
         <service android:enabled="true" android:name=".service.FetchDataService" />
         <activity android:name=".activity.QiblaDirection"></activity>
+        <activity android:name=".activity.AlarmReceiverActivity"></activity>
     </application>
 
 </manifest>

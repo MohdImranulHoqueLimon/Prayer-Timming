@@ -111,7 +111,6 @@ public class Home extends AppCompatActivity {
             String formatedMaghribtime = Helper.get24TimeTo12HourTime(maghribTime, "h:mm a");
             String formatedIshaTime = Helper.get24TimeTo12HourTime(ishaTime, "h:mm a");
 
-
             mFajrTime.setText(formatedFajrTime);
             mDhuhrTime.setText(formatedDhuhrTime);
             mAsarTime.setText(formatedAsrTime);

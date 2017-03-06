@@ -1,65 +1,50 @@
 package com.limon.PrayerTiming.activity;
 
-import java.io.IOException;
-import java.sql.Time;
-import java.util.Calendar;
-
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.RingtoneManager;
-import android.media.TimedText;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.PowerManager;
-import android.preference.PreferenceManager;
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.os.PowerManager;
+import android.app.Activity;
 import android.content.SharedPreferences;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
+
+import android.support.v7.appcompat.R;
 
 public class AlarmReceiverActivity extends Activity {
-	
-	public static int azan_duration_in_milisecond, month, day_of_year, namaztimecolum = 0, cnt = 0, delayTime = 0;
-	public static boolean sound = true;
-	public static boolean fajrsound, dhuhrsound, asrsound, magribsound, ishasound;
-	private MediaPlayer mMediaPlayer;
-	private PowerManager.WakeLock mWakeLock;
-	public static SharedPreferences settings;
-	public static final String PREFS_NAME = "TunePrefs";
-	
-	protected void onCreate(Bundle savedInstanceState) {
-		
-		super.onCreate(savedInstanceState);
-		
-		sound = true;
-		
-		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-		mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Wake Log");
-		mWakeLock.acquire();
-		
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
-				WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-				WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON ,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN |
-				WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-				WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-		
-		/*setContentView(R.layout.alarm);
-		
-		Button stopAlarm = (Button) findViewById(R.id.btnStopAlarm);
-		stopAlarm.setOnClickListener( new OnClickListener() {
+
+    public static int azan_duration_in_milisecond;
+    public static boolean sound = true;
+    private MediaPlayer mMediaPlayer;
+    private PowerManager.WakeLock mWakeLock;
+    public static SharedPreferences settings;
+    public static final String PREFS_NAME = "TunePrefs";
+
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+
+        sound = true;
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Wake Log");
+        mWakeLock.acquire();
+
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+        );
+
+        setContentView(com.limon.PrayerTiming.R.layout.alarm);
+
+		/*Button stopAlarm = (Button) findViewById(R.id.btnStopAlarm);
+		stopAlarm.setOnClickListener( new View.OnClickListener() {
 			
 			public void onClick(View arg0) {
 				
@@ -68,11 +53,11 @@ public class AlarmReceiverActivity extends Activity {
 				}
 				finish();
 			}
-		});*/
-		
-		//playAzanSound();
-	}
-	
+		});
+
+        playAzanSound();*/
+    }
+
 	
 	/*private void playAzanSound() {
 			
@@ -130,26 +115,12 @@ public class AlarmReceiverActivity extends Activity {
 			
 			mToast = Toast.makeText(getApplicationContext(), ajan + " " + yesorno + " in : " + nextPrayeTimeinSecond + " seconds", Toast.LENGTH_LONG);
 			mToast.show();
-			
 	}*/
-	
-	private boolean isTune(String prayername){
-		
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-		if( settings.getString(prayername, "").toString().equals("yes") ){
-			return true;
-		}
-		
-		return false;
-	}
-	
-	protected void onStop(){
-		if(sound == true){
-		   mMediaPlayer.stop();
-		}
-		super.onStop();
-		mWakeLock.release();
-	}	
+
+    protected void onStop() {
+        super.onStop();
+        mWakeLock.release();
+    }
 
 }
 

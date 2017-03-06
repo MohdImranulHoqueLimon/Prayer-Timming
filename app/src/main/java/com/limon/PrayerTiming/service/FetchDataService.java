@@ -37,12 +37,11 @@ public class FetchDataService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         timeDbHelper = new TimeDbHelper(getApplicationContext());
-        timeDbHelper.clearTableTruncate();
-        fetchPraterTimeData();
+        fetchPrayerTimeData();
         return START_STICKY;
     }
 
-    private synchronized void fetchPraterTimeData() {
+    private synchronized void fetchPrayerTimeData() {
 
         gpsTracker = new GPSTracker(getApplicationContext());
 
@@ -80,6 +79,8 @@ public class FetchDataService extends Service {
     private synchronized void onSuccessFetchTimeData(PrayerTime prayerTime) {
         if (prayerTime.getPrayertimeData() != null) {
             try {
+                //Clear previous data
+                timeDbHelper.clearTableTruncate();
                 int total_data = prayerTime.getPrayertimeData().size();
 
                 for (int i = 0; i < total_data; i++) {
@@ -107,6 +108,7 @@ public class FetchDataService extends Service {
                 saveLogData();
 
             } catch (Exception ex) {
+
             }
         }
         stopSelf();
