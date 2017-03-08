@@ -40,7 +40,7 @@ public class Home extends AppCompatActivity {
     @BindView(R.id.timeleft)
     TextView mTimeLeft;
 
-    ProgressDialog progressBar;
+    ProgressDialog mProgressBar;
     private Prayer prayer;
 
     public static int res = 1;
@@ -58,8 +58,10 @@ public class Home extends AppCompatActivity {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                if(mProgressBar != null && mProgressBar.isShowing()) {
+                    mProgressBar.hide();
+                }
                 showTimingOnView();
-                progressBar.hide();
             }
         };
         registerReceiver(broadcastReceiver, intentFilter);
@@ -75,11 +77,10 @@ public class Home extends AppCompatActivity {
 
         prayer = new Prayer(getApplicationContext());
         if (prayer.isNeedFetchTime()) {
-            Results.showLog("new fetch");
-            progressBar = new ProgressDialog(this);
-            progressBar.setMessage("Getting initial data ...");
-            progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressBar.show();
+            mProgressBar = new ProgressDialog(this);
+            mProgressBar.setMessage("Getting initial data ...");
+            mProgressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mProgressBar.show();
 
             try {
                 Intent intent = new Intent(getBaseContext(), FetchDataService.class);
@@ -96,6 +97,7 @@ public class Home extends AppCompatActivity {
 
     public void showTimingOnView() {
         try {
+            Results.showLog("Set time on View");
             TimeDbHelper timeDbHelper = new TimeDbHelper(getApplicationContext());
             Timing timingObj = timeDbHelper.getPrayerTime(Helper.getCurrentDate("with space"));
 

@@ -15,6 +15,7 @@ import com.limon.PrayerTiming.http.time.model.LogData;
 import com.limon.PrayerTiming.http.time.model.Timing;
 
 import java.util.Calendar;
+import java.util.concurrent.Exchanger;
 
 /**
  * Created by Limon on 2/21/2017.
@@ -39,83 +40,86 @@ public class Prayer {
 
         int timeDifferenceCurentToNext = 5;
         int findingFlag = 1;
+        try {
+            TimeDbHelper timeDbHelper = new TimeDbHelper(this.mContext);
+            Timing timingObj = timeDbHelper.getPrayerTime(Helper.getCurrentDate("with space"));
 
-        TimeDbHelper timeDbHelper = new TimeDbHelper(this.mContext);
-        Timing timingObj = timeDbHelper.getPrayerTime(Helper.getCurrentDate("with space"));
+            String fajrTime = timingObj.getFajrTime();
+            String dhuhrTime = timingObj.getDhuhrTime();
+            String asrTime = timingObj.getAsrTime();
+            String maghribTime = timingObj.getMaghribeTime();
+            String ishaTime = timingObj.getIshaTime();
 
-        String fajrTime = timingObj.getFajrTime();
-        String dhuhrTime = timingObj.getDhuhrTime();
-        String asrTime = timingObj.getAsrTime();
-        String maghribTime = timingObj.getMaghribeTime();
-        String ishaTime = timingObj.getIshaTime();
+            String formatedFajrTime = Helper.get24TimeTo12HourTime(fajrTime, "h-mm-a");
+            String formatedDhuhrTime = Helper.get24TimeTo12HourTime(dhuhrTime, "h-mm-a");
+            String formatedAsrTime = Helper.get24TimeTo12HourTime(asrTime, "h-mm-a");
+            String formatedMaghribtime = Helper.get24TimeTo12HourTime(maghribTime, "h-mm-a");
+            String formatedIshaTime = Helper.get24TimeTo12HourTime(ishaTime, "h-mm-a");
 
-        String formatedFajrTime = Helper.get24TimeTo12HourTime(fajrTime, "h-mm-a");
-        String formatedDhuhrTime = Helper.get24TimeTo12HourTime(dhuhrTime, "h-mm-a");
-        String formatedAsrTime = Helper.get24TimeTo12HourTime(asrTime, "h-mm-a");
-        String formatedMaghribtime = Helper.get24TimeTo12HourTime(maghribTime, "h-mm-a");
-        String formatedIshaTime = Helper.get24TimeTo12HourTime(ishaTime, "h-mm-a");
+            String[] splitArray = {
+                    formatedFajrTime,
+                    formatedDhuhrTime,
+                    formatedAsrTime,
+                    formatedMaghribtime,
+                    formatedIshaTime
+            };
 
-        String[] splitArray = {
-                formatedFajrTime,
-                formatedDhuhrTime,
-                formatedAsrTime,
-                formatedMaghribtime,
-                formatedIshaTime
-        };
+            boolean find = false;
 
-        boolean find = false;
+            Calendar c = Calendar.getInstance();
+            int curentHour = c.get(Calendar.HOUR);
+            int curentMinute = c.get(Calendar.MINUTE);
+            int curentTimeInSecond = (curentHour * 3600) + (curentMinute * 60);
 
-        Calendar c = Calendar.getInstance();
-        int curentHour = c.get(Calendar.HOUR);
-        int curentMinute = c.get(Calendar.MINUTE);
-        int curentTimeInSecond = (curentHour * 3600) + (curentMinute * 60);
+            //If current time is pm
+            int amOrPm = c.get(Calendar.AM_PM);
+            if (amOrPm == 1) {
+                curentTimeInSecond = curentTimeInSecond + (12 * 3600);
+            }
 
-        //If current time is pm
-        int amOrPm = c.get(Calendar.AM_PM);
-        if(amOrPm == 1){
-            curentTimeInSecond = curentTimeInSecond + (12 * 3600);
-        }
+            int cnt = 0;
+            while (find == false) {
 
-        int cnt = 0;
-        while (find == false) {
+                String hourAndMinute[] = splitArray[cnt].split("-");
 
-            String hourAndMinute[] = splitArray[cnt].split("-");
+                int nextHour = Integer.parseInt(hourAndMinute[0]);
+                int nextMinute = Integer.parseInt(hourAndMinute[1]);
+                int nextTimeInSecond = (nextHour * 3600) + (nextMinute * 60);
 
+                if ("pm".equals(hourAndMinute[2]) && nextHour != 12) {
+                    nextTimeInSecond = nextTimeInSecond + (12 * 3600);
+                }
+                if (curentTimeInSecond < nextTimeInSecond) {
+                    timeDifferenceCurentToNext = nextTimeInSecond - curentTimeInSecond;
+                    this.currentPrayerNumber = cnt;
+                    find = true;
+                }
+                /*
+                  if prayer time not find for this day then take the next days first
+                  prayer time and get the index by (date_of_the_year + 1) % 365 because
+                  when the day will be 365 ans for the next day 365 = (365+1)%365 = 1
+                 */
+                if (cnt == 4 && find == false) {
+                    this.currentPrayerNumber = 0;
+                    findingFlag = 0;
+                    find = true;
+                }
+                cnt++;
+            }
+
+            if (findingFlag == 1) return timeDifferenceCurentToNext;
+
+            fajrTime = timeDbHelper.getFajrPrayerTime(Helper.getNextDate());
+            fajrTime = Helper.get24TimeTo12HourTime(fajrTime, "h-mm-a");
+            String hourAndMinute[] = fajrTime.split("-");
             int nextHour = Integer.parseInt(hourAndMinute[0]);
             int nextMinute = Integer.parseInt(hourAndMinute[1]);
-            int nextTimeInSecond = (nextHour * 3600) + (nextMinute * 60);
 
-            if ("pm".equals(hourAndMinute[2]) && nextHour != 12) {
-                nextTimeInSecond = nextTimeInSecond + (12 * 3600);
-            }
-            if (curentTimeInSecond < nextTimeInSecond) {
-                timeDifferenceCurentToNext = nextTimeInSecond - curentTimeInSecond;
-                this.currentPrayerNumber = cnt;
-                find = true;
-            }
-            /*
-              if prayer time not find for this day then take the next days first
-              prayer time and get the index by (date_of_the_year + 1) % 365 because
-              when the day will be 365 ans for the next day 365 = (365+1)%365 = 1
-             */
+            timeDifferenceCurentToNext = ((24 * 3600) - (curentTimeInSecond)) + ((nextHour * 3600) + (nextMinute * 60));
+        } catch (Exception exception) {
 
-            if (cnt == 4 && find == false) {
-                this.currentPrayerNumber = 0;
-                findingFlag = 0;
-                find = true;
-            }
-            cnt++;
         }
 
-        if (findingFlag == 1) return timeDifferenceCurentToNext;
-
-        fajrTime = timeDbHelper.getFajrPrayerTime(Helper.getNextDate());
-        fajrTime = Helper.get24TimeTo12HourTime(fajrTime, "h-mm-a");
-        String hourAndMinute[] = fajrTime.split("-");
-        int nextHour = Integer.parseInt(hourAndMinute[0]);
-        int nextMinute = Integer.parseInt(hourAndMinute[1]);
-
-        timeDifferenceCurentToNext = ((24 * 3600) - (curentTimeInSecond)) + ((nextHour * 3600) + (nextMinute * 60));
 
         return timeDifferenceCurentToNext;
     }
@@ -178,7 +182,7 @@ public class Prayer {
     }
 
     public void setPrayerAlarm(int secondAfter) {
-
+        Results.showLog("Set prayer alert");
         Intent intent = new Intent(mContext, AlarmReceiverActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 2, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 

@@ -146,7 +146,7 @@ public class TimeDbHelper extends SQLiteOpenHelper {
         return fajrTime;
     }
 
-    public void clearTableTruncate() {
+    public void clearTimeTableTruncate() {
         String deleteQuery = "DROP TABLE IF EXISTS " + TIME_TABLE;
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(deleteQuery);

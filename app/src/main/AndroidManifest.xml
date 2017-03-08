@@ -16,13 +16,18 @@
         <activity android:name=".activity.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <service android:enabled="true" android:name=".service.FetchDataService" />
         <activity android:name=".activity.QiblaDirection"></activity>
         <activity android:name=".activity.AlarmReceiverActivity"></activity>
+
+        <receiver android:name=".Receiver.PrayerTimeReciever">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

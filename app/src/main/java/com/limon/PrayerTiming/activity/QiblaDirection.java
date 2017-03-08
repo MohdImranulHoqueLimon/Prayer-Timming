@@ -32,9 +32,7 @@ public class QiblaDirection extends AppCompatActivity implements SensorEventList
     public static final double QIBLA_LATITUDE = Math.toRadians(21.423333);
     public static final double QIBLA_LONGITUDE = Math.toRadians(39.823333);
 
-    // record the compass picture angle turned
     private float currentDegree = 0f;
-    // device sensor manager
     private SensorManager mSensorManager;
 
 
@@ -46,7 +44,6 @@ public class QiblaDirection extends AppCompatActivity implements SensorEventList
         ButterKnife.bind(this);
         setContentView(R.layout.compass);
 
-        // initialize your android device sensor capabilities
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
     }
 
@@ -62,8 +59,6 @@ public class QiblaDirection extends AppCompatActivity implements SensorEventList
     @Override
     protected void onPause() {
         super.onPause();
-
-        // to stop the listener and save battery
         mSensorManager.unregisterListener(this);
     }
 

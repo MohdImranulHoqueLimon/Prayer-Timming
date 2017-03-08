@@ -2,11 +2,13 @@ package com.limon.PrayerTiming.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.limon.PrayerTiming.GPS.GPSTracker;
+import com.limon.PrayerTiming.Prayer;
 import com.limon.PrayerTiming.Result.Results;
 import com.limon.PrayerTiming.dbhelper.TimeDbHelper;
 import com.limon.PrayerTiming.helper.Helper;
@@ -27,6 +29,7 @@ public class FetchDataService extends Service {
 
     TimeDbHelper timeDbHelper;
     GPSTracker gpsTracker;
+    Intent mFetchIntent;
 
     @Nullable
     @Override
@@ -36,6 +39,7 @@ public class FetchDataService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        this.mFetchIntent = intent;
         timeDbHelper = new TimeDbHelper(getApplicationContext());
         fetchPrayerTimeData();
         return START_STICKY;
@@ -80,7 +84,7 @@ public class FetchDataService extends Service {
         if (prayerTime.getPrayertimeData() != null) {
             try {
                 //Clear previous data
-                timeDbHelper.clearTableTruncate();
+                timeDbHelper.clearTimeTableTruncate();
                 int total_data = prayerTime.getPrayertimeData().size();
 
                 for (int i = 0; i < total_data; i++) {
@@ -103,9 +107,17 @@ public class FetchDataService extends Service {
                             timestamp
                     );
                 }
-                Intent intent = new Intent("com.prayertime.FETCH_FINISHED");
-                getApplicationContext().sendBroadcast(intent);
-                saveLogData();
+
+                boolean isBackgroundProcess = mFetchIntent.getBooleanExtra("IS_BACKGROUND_PROCESS", false);
+                if (isBackgroundProcess) {
+                    Prayer prayer = new Prayer(getApplicationContext());
+                    int nextPrayerInSecond = prayer.getNextPrayerInSecond();
+                    prayer.setPrayerAlarm(nextPrayerInSecond);
+                } else {
+                    Intent intent = new Intent("com.prayertime.FETCH_FINISHED");
+                    getApplicationContext().sendBroadcast(intent);
+                    saveLogData();
+                }
 
             } catch (Exception ex) {
 
