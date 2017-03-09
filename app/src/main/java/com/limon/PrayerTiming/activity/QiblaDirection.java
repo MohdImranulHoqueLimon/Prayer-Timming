@@ -16,7 +16,9 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.limon.PrayerTiming.GPS.GPSTracker;
 import com.limon.PrayerTiming.R;
+import com.limon.PrayerTiming.Result.Results;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +28,8 @@ public class QiblaDirection extends AppCompatActivity implements SensorEventList
 
     @BindView(R.id.imageViewCompass)
     ImageView image;
+    @BindView(R.id.arrowImage)
+    ImageView mArrow;
     @BindView(R.id.tvHeading)
     TextView tvHeading;
 
@@ -40,9 +44,8 @@ public class QiblaDirection extends AppCompatActivity implements SensorEventList
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        ButterKnife.bind(this);
         setContentView(R.layout.compass);
+        ButterKnife.bind(this);
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
     }
@@ -54,6 +57,8 @@ public class QiblaDirection extends AppCompatActivity implements SensorEventList
         // for the system's orientation sensor registered listeners
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
                 SensorManager.SENSOR_DELAY_GAME);
+
+        setQiblaDirection();
     }
 
     @Override
@@ -81,6 +86,23 @@ public class QiblaDirection extends AppCompatActivity implements SensorEventList
         // Start the animation
         image.startAnimation(ra);
         currentDegree = -degree;
+    }
+
+    private void setQiblaDirection() {
+        GPSTracker gpsTracker = new GPSTracker(getApplicationContext());
+
+        float angle = (float) getQiblaDirectionFromNorth(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        Results.showLog(angle + "");
+        if(angle < 0) angle *= -1;
+        // create a rotation animation (reverse turn degree degrees)
+        RotateAnimation ra = new RotateAnimation(0, -angle, Animation.RELATIVE_TO_SELF,
+                0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+
+        // how long the animation will take place
+        ra.setDuration(210);
+        // set the animation after the end of the reservation status
+        ra.setFillAfter(true);
+        mArrow.startAnimation(ra);
     }
 
     @Override
