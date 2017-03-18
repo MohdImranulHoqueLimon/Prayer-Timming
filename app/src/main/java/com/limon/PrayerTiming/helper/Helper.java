@@ -13,6 +13,8 @@ import java.util.TimeZone;
 
 public class Helper {
 
+    public static final String TIME_ZONE_API_KEY = "AIzaSyDVGyCIPH2uaxZQPUWvp_xn2khSwEdy8xE";
+
     static String[] Months = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
     public static double getCurrentLatitude() {

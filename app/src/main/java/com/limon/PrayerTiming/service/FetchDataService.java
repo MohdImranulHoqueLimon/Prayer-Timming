@@ -13,9 +13,14 @@ import com.limon.PrayerTiming.Result.Results;
 import com.limon.PrayerTiming.dbhelper.TimeDbHelper;
 import com.limon.PrayerTiming.helper.Helper;
 import com.limon.PrayerTiming.http.ApiClient;
+import com.limon.PrayerTiming.http.TimeZoneApiClient;
 import com.limon.PrayerTiming.http.time.PrayerTimeApiInterface;
 import com.limon.PrayerTiming.http.time.model.PrayerTime;
 import com.limon.PrayerTiming.http.time.model.Timing;
+import com.limon.PrayerTiming.http.timezone.TimeZoneApiInterface;
+import com.limon.PrayerTiming.http.timezone.model.TimeZoneDetails;
+
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,15 +46,47 @@ public class FetchDataService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         this.mFetchIntent = intent;
         timeDbHelper = new TimeDbHelper(getApplicationContext());
-        fetchPrayerTimeData();
+        getTimeZoneName();
         return START_STICKY;
     }
 
-    private synchronized void fetchPrayerTimeData() {
+    private void getTimeZoneName() {
+
+        gpsTracker = new GPSTracker(getApplicationContext());
+        String location = gpsTracker.getLatitude() + "," + gpsTracker.getLongitude();
+        long unixTimeStamp = System.currentTimeMillis() / 1000L;
+
+        TimeZoneApiInterface timeZoneApiInterface = TimeZoneApiClient.getClient().create(TimeZoneApiInterface.class);
+        Call<TimeZoneDetails> call = timeZoneApiInterface.getTimeZoneDetails(
+                location, unixTimeStamp, Helper.TIME_ZONE_API_KEY
+        );
+
+        call.enqueue(new Callback<TimeZoneDetails>() {
+            @Override
+            public void onResponse(Call<TimeZoneDetails> call, Response<TimeZoneDetails> response) {
+                try {
+                    TimeZoneDetails timeZoneDetails = response.body();
+                    if (timeZoneDetails.getStatus() == null) {
+                        throw new NullPointerException("Error occurred");
+                    }
+                    fetchPrayerTimeData(timeZoneDetails.getTimeZoneId());
+                } catch (Exception ex) {
+                    Results.showLog("Screwed up? fetch time zone");
+                    fetchPrayerTimeData(Helper.getTimeZoneString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TimeZoneDetails> call, Throwable t) {
+                Results.showLog("On failure fetch time zone string");
+            }
+        });
+    }
+
+    private synchronized void fetchPrayerTimeData(String timeZoneString) {
 
         gpsTracker = new GPSTracker(getApplicationContext());
 
-        String timeZoneString = Helper.getTimeZoneString();
         int currentYear = Helper.getCurrentYear();
         int currentMonth = Helper.getCurrentMonth() + 1;
         double latitude = gpsTracker.getLatitude();
@@ -68,7 +105,7 @@ public class FetchDataService extends Service {
                     }
                     onSuccessFetchTimeData(prayerTime);
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    //ex.printStackTrace();
                     Results.showLog("Screwed up? fetch data");
                 }
             }
