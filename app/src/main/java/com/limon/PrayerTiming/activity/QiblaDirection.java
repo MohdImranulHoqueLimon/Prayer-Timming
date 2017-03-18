@@ -39,7 +39,6 @@ public class QiblaDirection extends AppCompatActivity implements SensorEventList
     private float currentDegree = 0f;
     private SensorManager mSensorManager;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -92,15 +91,14 @@ public class QiblaDirection extends AppCompatActivity implements SensorEventList
         GPSTracker gpsTracker = new GPSTracker(getApplicationContext());
 
         float angle = (float) getQiblaDirectionFromNorth(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-        Results.showLog(angle + "");
-        if(angle < 0) angle *= -1;
+        Results.showLog("qibla direction 1 ", angle + "");
+        if(angle < 0) angle = 360 + angle;
+        Results.showLog("qibla direction 2 ", angle + "");
         // create a rotation animation (reverse turn degree degrees)
-        RotateAnimation ra = new RotateAnimation(0, -angle, Animation.RELATIVE_TO_SELF,
+        RotateAnimation ra = new RotateAnimation(0, angle, Animation.RELATIVE_TO_SELF,
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
-        // how long the animation will take place
         ra.setDuration(210);
-        // set the animation after the end of the reservation status
         ra.setFillAfter(true);
         mArrow.startAnimation(ra);
     }
