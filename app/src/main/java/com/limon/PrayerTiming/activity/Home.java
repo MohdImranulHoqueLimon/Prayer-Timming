@@ -5,10 +5,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.limon.PrayerTiming.Prayer;
 import com.limon.PrayerTiming.R;
@@ -46,12 +50,23 @@ public class Home extends AppCompatActivity {
     public static int res = 1;
     private BroadcastReceiver broadcastReceiver;
 
+    public static CheckBox fajrCheckBox, dhuhrCheckBox, asrCheckBox, magribCheckBox, ishaCheckBox;
+    public static final String PREFS_NAME = "TunePrefs";
+    Toast mToast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+
+        fajrCheckBox   =  	(CheckBox) findViewById(R.id.checkBoxFajrTune);
+        dhuhrCheckBox  =  	(CheckBox) findViewById(R.id.checkBoxDhuhrTune);
+        asrCheckBox    =	(CheckBox) findViewById(R.id.checkBoxAsrTune);
+        magribCheckBox =	(CheckBox) findViewById(R.id.checkBoxMagribTune);
+        ishaCheckBox   =	(CheckBox) findViewById(R.id.checkBoxIshaTun);
+        loadSavedTunePreferences();
 
         // A broadcast receiver fired when time fetching will done
         IntentFilter intentFilter = new IntentFilter("com.prayertime.FETCH_FINISHED");
@@ -122,5 +137,151 @@ public class Home extends AppCompatActivity {
         }
 
         mTodayDate.setText(Helper.getCurrentDate("with space"));
+    }
+
+    private void loadSavedTunePreferences() {
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+
+        if( settings.getString("fajartune", "").toString().equals("yes") ){
+            fajrCheckBox.setChecked(true);
+        }
+        if( settings.getString("dhuhrtune", "").toString().equals("yes") ){
+            dhuhrCheckBox.setChecked(true);
+        }
+        if( settings.getString("asrtune", "").toString().equals("yes") ){
+            asrCheckBox.setChecked(true);
+        }
+        if( settings.getString("magribtune", "").toString().equals("yes") ){
+            magribCheckBox.setChecked(true);
+        }
+        if( settings.getString("ishatune", "").toString().equals("yes") ){
+            ishaCheckBox.setChecked(true);
+        }
+    }
+
+    public void setTuneSetting(View view) {
+
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+
+        switch(view.getId()) {
+
+            case R.id.checkBoxFajrTune:
+                if (checked){
+                    fajrCheckBox.setChecked(true);
+                    mToast = Toast.makeText(getApplicationContext(), "Fajr Azan On", Toast.LENGTH_LONG);
+                    mToast.show();
+
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("fajartune", "yes");
+                    editor.commit();
+                }
+                else{
+                    fajrCheckBox.setChecked(false);
+                    mToast = Toast.makeText(getApplicationContext(), "Fajr Azan Off", Toast.LENGTH_LONG);
+                    mToast.show();
+
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("fajartune", "no");
+                    editor.commit();
+                }
+                break;
+
+            case R.id.checkBoxDhuhrTune:
+                if (checked){
+                    dhuhrCheckBox.setChecked(true);
+                    mToast = Toast.makeText(getApplicationContext(), "Dhuhr Azan On", Toast.LENGTH_LONG);
+                    mToast.show();
+
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("dhuhrtune", "yes");
+                    editor.commit();
+                }
+                else{
+                    fajrCheckBox.setChecked(false);
+                    mToast = Toast.makeText(getApplicationContext(), "Dhuhr Azan Off", Toast.LENGTH_LONG);
+                    mToast.show();
+
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("dhuhrtune", "no");
+                    editor.commit();
+                }
+                break;
+
+            case R.id.checkBoxAsrTune:
+                if (checked){
+                    asrCheckBox.setChecked(true);
+                    mToast = Toast.makeText(getApplicationContext(), "Asr Azan On", Toast.LENGTH_LONG);
+                    mToast.show();
+
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("asrtune", "yes");
+                    editor.commit();
+                }
+                else{
+                    asrCheckBox.setChecked(false);
+                    mToast = Toast.makeText(getApplicationContext(), "Asr Azan Off", Toast.LENGTH_LONG);
+                    mToast.show();
+
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("asrtune", "no");
+                    editor.commit();
+                }
+                break;
+
+            case R.id.checkBoxMagribTune:
+                if (checked){
+                    magribCheckBox.setChecked(true);
+                    mToast = Toast.makeText(getApplicationContext(), "Magrib Azan On", Toast.LENGTH_LONG);
+                    mToast.show();
+
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("magribtune", "yes");
+                    editor.commit();
+                }
+                else{
+                    magribCheckBox.setChecked(false);
+                    mToast = Toast.makeText(getApplicationContext(), "Magrib Azan Off", Toast.LENGTH_LONG);
+                    mToast.show();
+
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("magribtune", "no");
+                    editor.commit();
+                }
+                break;
+
+            case R.id.checkBoxIshaTun:
+                if (checked){
+                    ishaCheckBox.setChecked(true);
+                    mToast = Toast.makeText(getApplicationContext(), "Isha Azan On", Toast.LENGTH_LONG);
+                    mToast.show();
+
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("ishatune", "yes");
+                    editor.commit();
+                }
+                else{
+                    ishaCheckBox.setChecked(false);
+                    mToast = Toast.makeText(getApplicationContext(), "Isha Azan Off", Toast.LENGTH_LONG);
+                    mToast.show();
+
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("ishatune", "no");
+                    editor.commit();
+                }
+                break;
+
+        }
     }
 }

@@ -112,6 +112,7 @@
                 android:id="@+id/checkBoxFajrTune"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="setTuneSetting"
                 android:text="" />
         </LinearLayout>
 
@@ -147,7 +148,8 @@
             <CheckBox
                 android:id="@+id/checkBoxDhuhrTune"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:onClick="setTuneSetting"/>
         </LinearLayout>
 
         <View
@@ -182,7 +184,8 @@
             <CheckBox
                 android:id="@+id/checkBoxAsrTune"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:onClick="setTuneSetting"/>
         </LinearLayout>
 
         <View
@@ -219,7 +222,8 @@
                 android:id="@+id/checkBoxMagribTune"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text=""
+                android:onClick="setTuneSetting"/>
         </LinearLayout>
 
         <View
@@ -255,7 +259,8 @@
                 android:id="@+id/checkBoxIshaTun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text=""
+                android:onClick="setTuneSetting"/>
         </LinearLayout>
 
         <View
