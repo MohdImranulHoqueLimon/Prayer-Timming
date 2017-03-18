@@ -9,9 +9,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.location.Location;
 
-import com.limon.PrayerTiming.Result.Results;
 import com.limon.PrayerTiming.http.time.model.LogData;
 import com.limon.PrayerTiming.http.time.model.Timing;
 

@@ -31,11 +31,6 @@ public class Prayer {
         this.mContext = context;
     }
 
-    public String getUpcomingPrayer() {
-        String prayerName = null;
-        return prayerName;
-    }
-
     public int getNextPrayerInSecond() {
 
         int timeDifferenceCurentToNext = 5;

@@ -6,12 +6,8 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-
-import android.support.v7.appcompat.R;
 
 public class AlarmReceiverActivity extends Activity {
 

@@ -82,4 +82,24 @@ public class Timing {
     public String getMidnightTime() {
         return Helper.getSplitTime(this.mMidnightTime);
     }
+
+    public String getFormattedFajrTime(String format) {
+        return Helper.get24TimeTo12HourTime(getFajrTime(), format);
+    }
+
+    public String getFormattedDhuhrTime(String format) {
+        return Helper.get24TimeTo12HourTime(getDhuhrTime(), format);
+    }
+
+    public String getFormattedAsrTime(String format) {
+        return Helper.get24TimeTo12HourTime(getAsrTime(), format);
+    }
+
+    public String getFormattedMaghribTime(String format) {
+        return Helper.get24TimeTo12HourTime(getMaghribeTime(), format);
+    }
+
+    public String getFormattedIshaTime(String format) {
+        return Helper.get24TimeTo12HourTime(getIshaTime(), format);
+    }
 }

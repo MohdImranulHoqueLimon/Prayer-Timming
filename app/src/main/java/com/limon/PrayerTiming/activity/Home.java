@@ -97,27 +97,16 @@ public class Home extends AppCompatActivity {
 
     public void showTimingOnView() {
         try {
-            Results.showLog("Set time on View");
+
             TimeDbHelper timeDbHelper = new TimeDbHelper(getApplicationContext());
             Timing timingObj = timeDbHelper.getPrayerTime(Helper.getCurrentDate("with space"));
 
-            String fajrTime = timingObj.getFajrTime();
-            String dhuhrTime = timingObj.getDhuhrTime();
-            String asrTime = timingObj.getAsrTime();
-            String maghribTime = timingObj.getMaghribeTime();
-            String ishaTime = timingObj.getIshaTime();
-
-            String formatedFajrTime = Helper.get24TimeTo12HourTime(fajrTime, "h:mm a");
-            String formatedDhuhrTime = Helper.get24TimeTo12HourTime(dhuhrTime, "h:mm a");
-            String formatedAsrTime = Helper.get24TimeTo12HourTime(asrTime, "h:mm a");
-            String formatedMaghribtime = Helper.get24TimeTo12HourTime(maghribTime, "h:mm a");
-            String formatedIshaTime = Helper.get24TimeTo12HourTime(ishaTime, "h:mm a");
-
-            mFajrTime.setText(formatedFajrTime);
-            mDhuhrTime.setText(formatedDhuhrTime);
-            mAsarTime.setText(formatedAsrTime);
-            mMaghribTime.setText(formatedMaghribtime);
-            mIshaTime.setText(formatedIshaTime);
+            String timeFormat = "h:mm a";
+            mFajrTime.setText(timingObj.getFormattedFajrTime(timeFormat));
+            mDhuhrTime.setText(timingObj.getFormattedDhuhrTime(timeFormat));
+            mAsarTime.setText(timingObj.getFormattedAsrTime(timeFormat));
+            mMaghribTime.setText(timingObj.getFormattedMaghribTime(timeFormat));
+            mIshaTime.setText(timingObj.getFormattedIshaTime(timeFormat));
 
             prayer = new Prayer(getApplicationContext());
             int secondToNextPrayer = prayer.getNextPrayerInSecond();
