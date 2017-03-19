@@ -55,14 +55,10 @@ public class Home extends AppCompatActivity {
     @BindView(R.id.checkBoxIshaTune)
     CheckBox mIshaCheckBox;
 
-    ProgressDialog mProgressBar;
-    private Prayer prayer;
-
-    public static int res = 1;
+    private ProgressDialog mProgressBar;
+    private Prayer mPrayer;
     private BroadcastReceiver broadcastReceiver;
-
-    public static final String PREFS_NAME = "TUNE_PREFERENCES";
-    Context mContext;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +91,8 @@ public class Home extends AppCompatActivity {
 
     private void startFetchDataService() {
 
-        prayer = new Prayer(getApplicationContext());
-        if (prayer.isNeedFetchTime()) {
+        mPrayer = new Prayer(getApplicationContext());
+        if (mPrayer.isNeedFetchTime()) {
             mProgressBar = new ProgressDialog(this);
             mProgressBar.setMessage("Getting initial data ...");
             mProgressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -112,7 +108,7 @@ public class Home extends AppCompatActivity {
             Results.showLog("Did not fetch");
             showTimingOnView();
         }
-        prayer = null;
+        mPrayer = null;
     }
 
     public void showTimingOnView() {
@@ -128,14 +124,14 @@ public class Home extends AppCompatActivity {
             mMaghribTime.setText(timingObj.getFormattedMaghribTime(timeFormat));
             mIshaTime.setText(timingObj.getFormattedIshaTime(timeFormat));
 
-            prayer = new Prayer(getApplicationContext());
-            int secondToNextPrayer = prayer.getNextPrayerInSecond();
+            mPrayer = new Prayer(getApplicationContext());
+            int secondToNextPrayer = mPrayer.getNextPrayerInSecond();
 
-            String upcommingPrayer = prayer.prayerName[prayer.currentPrayerNumber];
+            String upcommingPrayer = mPrayer.prayerName[mPrayer.currentPrayerNumber];
             mUpcomingPrayer.setText(upcommingPrayer);
             mTimeLeft.setText((secondToNextPrayer / 3600) + " HRS " + ((secondToNextPrayer % 3600) / 60) + " MINS LEFT");
 
-            prayer.setPrayerAlarm(secondToNextPrayer);
+            mPrayer.setPrayerAlarm(secondToNextPrayer);
 
         } catch (NullPointerException nullPointerException) {
             nullPointerException.printStackTrace();
@@ -146,37 +142,31 @@ public class Home extends AppCompatActivity {
 
     //initialize azan tune checkbox from shared preferences
     private void loadSavedTunePreferences() {
-        mFajrCheckBox.setChecked(AjanTune.getIsTune(mContext, "fajr"));
-        mDhuhrCheckBox.setChecked(AjanTune.getIsTune(mContext, "dhuhr"));
-        mAsrCheckBox.setChecked(AjanTune.getIsTune(mContext, "asr"));
-        mMaghribCheckBox.setChecked(AjanTune.getIsTune(mContext, "maghrib"));
-        mIshaCheckBox.setChecked(AjanTune.getIsTune(mContext, "isha"));
+        mFajrCheckBox.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.fajr)));
+        mDhuhrCheckBox.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.dhuhr)));
+        mAsrCheckBox.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.asr)));
+        mMaghribCheckBox.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.maghrib)));
+        mIshaCheckBox.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.isha)));
     }
 
     public void setTuneSetting(View view) {
-
         boolean isChecked = ((CheckBox) view).isChecked();
 
         switch (view.getId()) {
-
             case R.id.checkBoxFajrTune:
-                AjanTune.setTune(mContext, "fajr", isChecked);
+                AjanTune.setTune(mContext, getResources().getString(R.string.fajr), isChecked);
                 break;
-
             case R.id.checkBoxDhuhrTune:
-                AjanTune.setTune(mContext, "dhuhr", isChecked);
+                AjanTune.setTune(mContext, getResources().getString(R.string.dhuhr), isChecked);
                 break;
-
             case R.id.checkBoxAsrTune:
-                AjanTune.setTune(mContext, "asr", isChecked);
+                AjanTune.setTune(mContext, getResources().getString(R.string.asr), isChecked);
                 break;
-
             case R.id.checkBoxMagribTune:
-                AjanTune.setTune(mContext, "maghrib", isChecked);
+                AjanTune.setTune(mContext, getResources().getString(R.string.maghrib), isChecked);
                 break;
-
             case R.id.checkBoxIshaTune:
-                AjanTune.setTune(mContext, "isha", isChecked);
+                AjanTune.setTune(mContext, getResources().getString(R.string.isha), isChecked);
                 break;
         }
     }

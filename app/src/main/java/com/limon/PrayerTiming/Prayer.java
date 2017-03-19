@@ -115,7 +115,6 @@ public class Prayer {
 
         }
 
-
         return timeDifferenceCurentToNext;
     }
 
