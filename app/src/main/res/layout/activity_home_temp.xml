@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#9AD2FF"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/home_details_shape">
+
+        <TextView
+            android:id="@+id/txtArabicDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:height="50dp"
+            android:gravity="center"
+            android:text="17th Jumada Al-Awwal 1438"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/viewLine1"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_below="@id/txtArabicDate"
+            android:background="@color/colorGray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/viewLine1"
+            android:id="@+id/fajrLinearLayout"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/txtFajr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fajr"
+                android:textSize="22dp"
+                android:textColor="@color/colorBlack"
+
+                android:layout_weight="2"/>
+
+            <TextView
+                android:id="@+id/txtFajrTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="05:34 AM"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:textAlignment="textEnd"
+                android:layout_marginRight="15dp"
+                android:textStyle="bold"/>
+
+            <Switch
+                android:id="@+id/fajrSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"/>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/viewLine2"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_below="@id/fajrLinearLayout"
+            android:background="@color/colorLightGray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/viewLine2"
+            android:id="@+id/dhuhrLinearLayout"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/txtDhuhr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dhuhr"
+                android:textSize="22dp"
+                android:textColor="@color/colorLIGHTCORAL"
+                android:layout_weight="2"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/txtDhuhrTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:layout_marginRight="15dp"
+                android:text="05:34 AM"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:textColor="@color/colorLIGHTCORAL"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/dhuhrSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"/>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/viewLine3"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_below="@id/dhuhrLinearLayout"
+            android:background="@color/colorLightGray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dhuhrLinearLayout"
+            android:id="@+id/asrLinearLayout"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/txtAsr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Asr"
+                android:textSize="22dp"
+                android:textColor="@color/colorBlack"
+                android:layout_weight="2"/>
+
+            <TextView
+                android:id="@+id/txtAsrTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:layout_marginRight="15dp"
+                android:text="05:34 AM"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/asrSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"/>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/viewLine4"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_below="@id/asrLinearLayout"
+            android:background="@color/colorLightGray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/viewLine4"
+            android:id="@+id/maghribLinearLayout"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/txtMaghrib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Maghrib"
+                android:textSize="22dp"
+                android:textColor="@color/colorBlack"
+                android:layout_weight="2"/>
+
+            <TextView
+                android:id="@+id/txtMaghribTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:layout_marginRight="15dp"
+                android:text="05:34 AM"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/maghribSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"/>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/viewLine5"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_below="@id/maghribLinearLayout"
+            android:background="@color/colorLightGray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/viewLine5"
+            android:id="@+id/ishaLinearLayout"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/txtIsha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Isha"
+                android:textSize="22dp"
+                android:textColor="@color/colorBlack"
+                android:layout_weight="2"/>
+
+            <TextView
+                android:id="@+id/txtIshaTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:layout_marginRight="15dp"
+                android:text="05:34 AM"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/IshaSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"/>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>
