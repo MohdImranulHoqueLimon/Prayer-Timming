@@ -256,7 +256,7 @@
                 android:textColor="#B0B0B0" />
 
             <CheckBox
-                android:id="@+id/checkBoxIshaTun"
+                android:id="@+id/checkBoxIshaTune"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
