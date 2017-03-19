@@ -26,7 +26,7 @@ import com.limon.PrayerTiming.utility.AjanTune;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Home extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     @BindView(R.id.fajrTime)
     TextView mFajrTime;
