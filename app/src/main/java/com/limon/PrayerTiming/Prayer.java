@@ -176,8 +176,6 @@ public class Prayer {
     }
 
     public void setPrayerAlarm(int secondAfter) {
-        //Results.showLog("Set prayer alert");
-
         Intent intent = new Intent(mContext, AlarmReceiverActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 2, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 

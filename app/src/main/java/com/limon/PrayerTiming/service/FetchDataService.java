@@ -145,6 +145,7 @@ public class FetchDataService extends Service {
                     );
                 }
 
+                saveLogData();
                 boolean isBackgroundProcess = mFetchIntent.getBooleanExtra("IS_BACKGROUND_PROCESS", false);
                 if (isBackgroundProcess) {
                     Prayer prayer = new Prayer(getApplicationContext());
@@ -153,7 +154,6 @@ public class FetchDataService extends Service {
                 } else {
                     Intent intent = new Intent("com.prayertime.FETCH_FINISHED");
                     getApplicationContext().sendBroadcast(intent);
-                    saveLogData();
                 }
 
             } catch (Exception ex) {
@@ -163,6 +163,7 @@ public class FetchDataService extends Service {
         stopSelf();
     }
 
+    //Save last fetched time, location info
     private void saveLogData() {
         String currentDateTime = Helper.getCurrentDate();
         double latitude = gpsTracker.getLatitude();
