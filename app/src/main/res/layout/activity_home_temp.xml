@@ -3,8 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#9AD2FF"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:paddingLeft="13dp"
+    android:paddingRight="13dp"
     android:paddingTop="8dp">
 
     <RelativeLayout
@@ -13,11 +13,31 @@
         android:background="@drawable/home_details_shape">
 
         <TextView
-            android:id="@+id/txtArabicDate"
+            android:id="@+id/txtTodayDay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:height="50dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Saturday"
+            android:textSize="19dp"
+            android:textColor="@color/colorBlack"/>
+
+        <TextView
+            android:id="@+id/txtEnglishDate"
+            android:layout_below="@id/txtTodayDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="15th January 2017"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtArabicDate"
+            android:layout_below="@id/txtEnglishDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:gravity="center"
             android:text="17th Jumada Al-Awwal 1438"
             android:textColor="@color/colorBlack"
