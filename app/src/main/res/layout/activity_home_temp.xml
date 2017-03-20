@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/viewLine1"
             android:id="@+id/fajrLinearLayout"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="17dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
@@ -67,7 +67,6 @@
                 android:text="Fajr"
                 android:textSize="22dp"
                 android:textColor="@color/colorBlack"
-
                 android:layout_weight="2"/>
 
             <TextView
@@ -100,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/viewLine2"
             android:id="@+id/dhuhrLinearLayout"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="17dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
@@ -146,7 +145,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/dhuhrLinearLayout"
             android:id="@+id/asrLinearLayout"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="17dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
@@ -190,7 +189,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/viewLine4"
             android:id="@+id/maghribLinearLayout"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="17dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
@@ -234,10 +233,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/viewLine5"
             android:id="@+id/ishaLinearLayout"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="17dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="14dp">
 
             <TextView
                 android:id="@+id/txtIsha"
