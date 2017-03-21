@@ -76,7 +76,6 @@ public class HomeActivity extends AppCompatActivity {
                     mProgressBar.hide();
                 }
                 showTimingOnView();
-
             }
         };
         registerReceiver(broadcastReceiver, intentFilter);

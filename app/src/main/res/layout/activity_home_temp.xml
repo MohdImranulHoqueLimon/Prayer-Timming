@@ -29,7 +29,7 @@
                 android:text=" Indoneshia 2-E Road"
                 android:textColor="@color/colorBlack"
                 android:gravity=""
-                android:drawableLeft="@drawable/Street_View"
+                android:drawableLeft="@drawable/man"
                 android:textSize="16dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="8dp"/>
