@@ -43,7 +43,7 @@
                 android:textStyle=""
                 android:textSize="18dp"/>
             <TextView
-                android:id="@+id/textUpcomingPrayer"
+                android:id="@+id/txtUpcomingPrayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textUpcoming"
@@ -56,7 +56,7 @@
                 android:id="@+id/textTimeLeft"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textUpcomingPrayer"
+                android:layout_below="@id/txtUpcomingPrayer"
                 android:textSize="16dp"
                 android:textStyle=""
                 android:textColor="@color/colorBlack"
@@ -74,7 +74,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp">
 
             <TextView
                 android:id="@+id/txtTodayDay"
@@ -148,7 +149,8 @@
                     android:id="@+id/fajrSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp" />
+                    android:layout_marginRight="15dp"
+                    android:onClick="setTuneSetting"/>
             </LinearLayout>
 
             <View
@@ -194,7 +196,8 @@
                     android:id="@+id/dhuhrSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp" />
+                    android:layout_marginRight="15dp"
+                    android:onClick="setTuneSetting"/>
             </LinearLayout>
 
             <View
@@ -238,7 +241,8 @@
                     android:id="@+id/asrSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp" />
+                    android:layout_marginRight="15dp"
+                    android:onClick="setTuneSetting"/>
             </LinearLayout>
 
             <View
@@ -282,7 +286,8 @@
                     android:id="@+id/maghribSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp" />
+                    android:layout_marginRight="15dp"
+                    android:onClick="setTuneSetting"/>
             </LinearLayout>
 
             <View
@@ -323,10 +328,11 @@
                     android:textStyle="bold" />
 
                 <Switch
-                    android:id="@+id/IshaSwitch"
+                    android:id="@+id/ishaSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp" />
+                    android:layout_marginRight="15dp"
+                    android:onClick="setTuneSetting"/>
             </LinearLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>

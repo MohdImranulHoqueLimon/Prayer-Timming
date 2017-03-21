@@ -50,8 +50,8 @@ public class Helper {
         calendar.setTime(date);
         calendar.add(Calendar.DATE, 1);
 
-        return calendar.get(Calendar.YEAR) + "-" + Months[calendar.get(Calendar.MONTH)] + "-"
-                + String.format("%02d", calendar.get(Calendar.DATE));
+        return  String.format("%02d", calendar.get(Calendar.DATE)) + " " +
+                Months[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.YEAR);
     }
 
     public static String getCurrentDate() {

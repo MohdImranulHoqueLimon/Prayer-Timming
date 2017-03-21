@@ -33,7 +33,7 @@ public class Prayer {
 
     public int getNextPrayerInSecond() {
 
-        int timeDifferenceCurentToNext = 5;
+        int timeDifferenceCurentToNext = 0;
         int findingFlag = 1;
         try {
             TimeDbHelper timeDbHelper = new TimeDbHelper(this.mContext);
@@ -80,7 +80,6 @@ public class Prayer {
                 int nextHour = Integer.parseInt(hourAndMinute[0]);
                 int nextMinute = Integer.parseInt(hourAndMinute[1]);
                 int nextTimeInSecond = (nextHour * 3600) + (nextMinute * 60);
-
                 if ("pm".equals(hourAndMinute[2]) && nextHour != 12) {
                     nextTimeInSecond = nextTimeInSecond + (12 * 3600);
                 }
@@ -109,24 +108,12 @@ public class Prayer {
             String hourAndMinute[] = fajrTime.split("-");
             int nextHour = Integer.parseInt(hourAndMinute[0]);
             int nextMinute = Integer.parseInt(hourAndMinute[1]);
-
             timeDifferenceCurentToNext = ((24 * 3600) - (curentTimeInSecond)) + ((nextHour * 3600) + (nextMinute * 60));
         } catch (Exception exception) {
-
+            Results.showLog("nexttime", "Exception: " + exception.getMessage());
         }
 
         return timeDifferenceCurentToNext;
-    }
-
-    public int getTimeDifferenceInMillisecond(String time1, String time2) {
-        int difference = 0;
-
-        long currentTime = System.currentTimeMillis();
-
-        TimeDbHelper timeDbHelper = new TimeDbHelper(this.mContext);
-        Timing timing = timeDbHelper.getPrayerTime(Helper.getCurrentDate("with space"));
-
-        return difference;
     }
 
     public boolean isNeedFetchTime() {

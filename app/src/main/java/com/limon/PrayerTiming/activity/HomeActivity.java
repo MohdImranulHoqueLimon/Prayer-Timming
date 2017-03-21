@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,32 +29,32 @@ import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity {
 
-    @BindView(R.id.fajrTime)
+    @BindView(R.id.txtFajrTime)
     TextView mFajrTime;
-    @BindView(R.id.dhuhrTime)
+    @BindView(R.id.txtDhuhrTime)
     TextView mDhuhrTime;
-    @BindView(R.id.asr_time)
+    @BindView(R.id.txtAsrTime)
     TextView mAsarTime;
-    @BindView(R.id.maghrib_time)
+    @BindView(R.id.txtMaghribTime)
     TextView mMaghribTime;
-    @BindView(R.id.ishatime)
+    @BindView(R.id.txtIshaTime)
     TextView mIshaTime;
-    @BindView(R.id.todayDate)
+    @BindView(R.id.txtEnglishDate)
     TextView mTodayDate;
-    @BindView(R.id.prayerTime)
+    @BindView(R.id.txtUpcomingPrayer)
     TextView mUpcomingPrayer;
-    @BindView(R.id.timeleft)
+    @BindView(R.id.textTimeLeft)
     TextView mTimeLeft;
-    @BindView(R.id.checkBoxFajrTune)
-    CheckBox mFajrCheckBox;
-    @BindView(R.id.checkBoxDhuhrTune)
-    CheckBox mDhuhrCheckBox;
-    @BindView(R.id.checkBoxAsrTune)
-    CheckBox mAsrCheckBox;
-    @BindView(R.id.checkBoxMagribTune)
-    CheckBox mMaghribCheckBox;
-    @BindView(R.id.checkBoxIshaTune)
-    CheckBox mIshaCheckBox;
+    @BindView(R.id.fajrSwitch)
+    Switch mFajrSwitch;
+    @BindView(R.id.dhuhrSwitch)
+    Switch mDhuhrSwitch;
+    @BindView(R.id.asrSwitch)
+    Switch mAsrSwitch;
+    @BindView(R.id.maghribSwitch)
+    Switch mMaghribSwitch;
+    @BindView(R.id.ishaSwitch)
+    Switch mIshaSwitch;
 
     private ProgressDialog mProgressBar;
     private Prayer mPrayer;
@@ -64,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_home_temp);
         ButterKnife.bind(this);
 
         // A broadcast receiver fired when time fetching will done
@@ -126,7 +127,7 @@ public class HomeActivity extends AppCompatActivity {
 
             mPrayer = new Prayer(getApplicationContext());
             int secondToNextPrayer = mPrayer.getNextPrayerInSecond();
-
+            Results.showLog("nexttime", secondToNextPrayer + "");
             String upcommingPrayer = mPrayer.prayerName[mPrayer.currentPrayerNumber];
             mUpcomingPrayer.setText(upcommingPrayer);
             mTimeLeft.setText((secondToNextPrayer / 3600) + " HRS " + ((secondToNextPrayer % 3600) / 60) + " MINS LEFT");
@@ -142,30 +143,29 @@ public class HomeActivity extends AppCompatActivity {
 
     //initialize azan tune checkbox from shared preferences
     private void loadSavedTunePreferences() {
-        mFajrCheckBox.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.fajr)));
-        mDhuhrCheckBox.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.dhuhr)));
-        mAsrCheckBox.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.asr)));
-        mMaghribCheckBox.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.maghrib)));
-        mIshaCheckBox.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.isha)));
+        mFajrSwitch.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.fajr)));
+        mDhuhrSwitch.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.dhuhr)));
+        mAsrSwitch.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.asr)));
+        mMaghribSwitch.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.maghrib)));
+        mIshaSwitch.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.isha)));
     }
 
     public void setTuneSetting(View view) {
-        boolean isChecked = ((CheckBox) view).isChecked();
-
+        boolean isChecked = ((Switch) view).isChecked();
         switch (view.getId()) {
-            case R.id.checkBoxFajrTune:
+            case R.id.fajrSwitch:
                 AjanTune.setTune(mContext, getResources().getString(R.string.fajr), isChecked);
                 break;
-            case R.id.checkBoxDhuhrTune:
+            case R.id.dhuhrSwitch:
                 AjanTune.setTune(mContext, getResources().getString(R.string.dhuhr), isChecked);
                 break;
-            case R.id.checkBoxAsrTune:
+            case R.id.asrSwitch:
                 AjanTune.setTune(mContext, getResources().getString(R.string.asr), isChecked);
                 break;
-            case R.id.checkBoxMagribTune:
+            case R.id.maghribSwitch:
                 AjanTune.setTune(mContext, getResources().getString(R.string.maghrib), isChecked);
                 break;
-            case R.id.checkBoxIshaTune:
+            case R.id.ishaSwitch:
                 AjanTune.setTune(mContext, getResources().getString(R.string.isha), isChecked);
                 break;
         }
