@@ -5,4 +5,10 @@
     <string name="asr">ASR</string>
     <string name="maghrib">MAGHRIB</string>
     <string name="isha">ISHA</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="order_no">O.NO</string>
+    <string name="sos_latitude">Lat</string>
+    <string name="sos_longitude">Long</string>
+    <string name="sos_time">Time</string>
 </resources>

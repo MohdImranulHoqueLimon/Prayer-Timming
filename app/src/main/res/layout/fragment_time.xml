@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorINDIANRED"
+    android:orientation="vertical"
+    android:paddingLeft="13dp"
+    android:paddingRight="13dp"
+    android:paddingTop="8dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        android:layout_marginBottom="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:id="@+id/textAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Indoneshia 2-E Road"
+                android:textColor="@color/colorBlack"
+                android:gravity=""
+                android:drawableLeft="@drawable/man"
+                android:textSize="16dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="2dp"/>
+            <TextView
+                android:id="@+id/textUpcoming"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="UPCOMING PRAYER"
+                android:textColor="@color/colorBlack"
+                android:layout_below="@id/textAddress"
+                android:textStyle=""
+                android:textSize="18dp"/>
+            <TextView
+                android:id="@+id/txtUpcomingPrayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textUpcoming"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="3dp"
+                android:text="Maghrib 06:31 PM"/>
+            <TextView
+                android:id="@+id/textTimeLeft"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtUpcomingPrayer"
+                android:textSize="16dp"
+                android:textStyle=""
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="3dp"
+                android:text="02 Hour 15 minutes left"/>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view_detials"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="4dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp">
+
+            <TextView
+                android:id="@+id/txtTodayDay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Saturday"
+                android:textColor="@color/colorBlack"
+                android:textSize="19dp" />
+
+            <TextView
+                android:id="@+id/txtEnglishDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtTodayDay"
+                android:gravity="center"
+                android:text="15th January 2017"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtArabicDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtEnglishDate"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:text="17th Jumada Al-Awwal 1438"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/viewLine1"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_below="@id/txtArabicDate"
+                android:background="@color/colorGray" />
+
+            <LinearLayout
+                android:id="@+id/fajrLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/viewLine1"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/txtFajr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Fajr"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="22dp" />
+
+                <TextView
+                    android:id="@+id/txtFajrTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:text="05:34 AM"
+                    android:textAlignment="textEnd"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/fajrSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:onClick="setTuneSetting"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/viewLine2"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_below="@id/fajrLinearLayout"
+                android:background="@color/colorLightGray" />
+
+            <LinearLayout
+                android:id="@+id/dhuhrLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/viewLine2"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/txtDhuhr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Dhuhr"
+                    android:textColor="@color/colorLIGHTCORAL"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtDhuhrTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:text="05:34 AM"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorLIGHTCORAL"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/dhuhrSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:onClick="setTuneSetting"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/viewLine3"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_below="@id/dhuhrLinearLayout"
+                android:background="@color/colorLightGray" />
+
+            <LinearLayout
+                android:id="@+id/asrLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dhuhrLinearLayout"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/txtAsr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Asr"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="22dp" />
+
+                <TextView
+                    android:id="@+id/txtAsrTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:text="05:34 AM"
+                    android:textAlignment="textEnd"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/asrSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:onClick="setTuneSetting"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/viewLine4"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_below="@id/asrLinearLayout"
+                android:background="@color/colorLightGray" />
+
+            <LinearLayout
+                android:id="@+id/maghribLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/viewLine4"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/txtMaghrib"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Maghrib"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="22dp" />
+
+                <TextView
+                    android:id="@+id/txtMaghribTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:text="05:34 AM"
+                    android:textAlignment="textEnd"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/maghribSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:onClick="setTuneSetting"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/viewLine5"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_below="@id/maghribLinearLayout"
+                android:background="@color/colorLightGray" />
+
+            <LinearLayout
+                android:id="@+id/ishaLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/viewLine5"
+                android:layout_marginBottom="14dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/txtIsha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Isha"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="22dp" />
+
+                <TextView
+                    android:id="@+id/txtIshaTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:text="05:34 AM"
+                    android:textAlignment="textEnd"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/ishaSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:onClick="setTuneSetting"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

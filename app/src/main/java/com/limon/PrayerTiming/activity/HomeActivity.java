@@ -5,15 +5,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.limon.PrayerTiming.Prayer;
 import com.limon.PrayerTiming.R;
@@ -65,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_temp);
+        setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
         // A broadcast receiver fired when time fetching will done

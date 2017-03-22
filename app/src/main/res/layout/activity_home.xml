@@ -32,7 +32,7 @@
                 android:drawableLeft="@drawable/man"
                 android:textSize="16dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="2dp"/>
             <TextView
                 android:id="@+id/textUpcoming"
                 android:layout_width="match_parent"
