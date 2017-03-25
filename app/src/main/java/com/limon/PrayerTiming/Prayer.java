@@ -126,18 +126,24 @@ public class Prayer {
         TimeDbHelper timeDbHelper = new TimeDbHelper(this.mContext);
         LogData logData = timeDbHelper.getLastLogData();
 
-        if (logData != null) {
-            double lastLat = logData.latitude;
-            double lastLong = logData.longitude;
+        /*Timing timing = timeDbHelper.getPrayerTime(Helper.getCurrentDate("with space"));
+        if (timing == null) {
+            isNeed = true;
+        } else {*/
+            if (logData != null) {
+                double lastLat = logData.latitude;
+                double lastLong = logData.longitude;
 
-            if (getDistance(currentLat, currentLong, lastLat, lastLong) > 50.0) {
+                if (getDistance(currentLat, currentLong, lastLat, lastLong) > 50.0) {
+                    isNeed = true;
+                }
+            }
+            if (logData == null) {
                 isNeed = true;
             }
-        }
-        if (logData == null) {
-            isNeed = true;
-        }
-        gpsTracker = null;
+            gpsTracker = null;
+        //}
+
         return isNeed;
     }
 

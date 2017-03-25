@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.View;
 
 import com.limon.PrayerTiming.R;
 import com.limon.PrayerTiming.fragment.QiblaFragment;
@@ -23,8 +24,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
+        /*
+        Create the adapter that will return a fragment for each of the three
+        primary sections of the activity.
+        */
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.

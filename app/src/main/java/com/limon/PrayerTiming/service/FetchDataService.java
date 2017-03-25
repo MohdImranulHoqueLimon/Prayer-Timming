@@ -100,19 +100,22 @@ public class FetchDataService extends Service {
             public void onResponse(Call<PrayerTime> call, Response<PrayerTime> response) {
                 try {
                     PrayerTime prayerTime = response.body();
-                    if (prayerTime.getPrayertimeData() == null) {
+                    if (prayerTime.getPrayertimeData() == null || prayerTime.getStatusCode() == 400) {
                         throw new NullPointerException("Error occurred");
                     }
                     onSuccessFetchTimeData(prayerTime);
                 } catch (Exception ex) {
-                    //ex.printStackTrace();
+                    Results.showToast(getApplicationContext(), "Problem: Check network connection and/or location service");
                     Results.showLog("Screwed up? fetch data");
+                    onFinishDataProcess();
                 }
             }
 
             @Override
             public void onFailure(Call<PrayerTime> call, Throwable t) {
+                Results.showToast(getApplicationContext(), "Problem: Check network connection and/or location service");
                 Results.showLog("On failure fetch data");
+                onFinishDataProcess();
             }
         });
     }
@@ -144,23 +147,26 @@ public class FetchDataService extends Service {
                             timestamp
                     );
                 }
-
-                saveLogData();
-                boolean isBackgroundProcess = mFetchIntent.getBooleanExtra("IS_BACKGROUND_PROCESS", false);
-                if (isBackgroundProcess) {
-                    Prayer prayer = new Prayer(getApplicationContext());
-                    int nextPrayerInSecond = prayer.getNextPrayerInSecond();
-                    prayer.setPrayerAlarm(nextPrayerInSecond);
-                } else {
-                    Intent intent = new Intent("com.prayertime.FETCH_FINISHED");
-                    getApplicationContext().sendBroadcast(intent);
-                }
+                onFinishDataProcess();
 
             } catch (Exception ex) {
 
             }
         }
         stopSelf();
+    }
+
+    private void onFinishDataProcess() {
+        saveLogData();
+        boolean isBackgroundProcess = mFetchIntent.getBooleanExtra("IS_BACKGROUND_PROCESS", false);
+        if (isBackgroundProcess) {
+            Prayer prayer = new Prayer(getApplicationContext());
+            int nextPrayerInSecond = prayer.getNextPrayerInSecond();
+            prayer.setPrayerAlarm(nextPrayerInSecond);
+        } else {
+            Intent intent = new Intent("com.prayertime.FETCH_FINISHED");
+            getApplicationContext().sendBroadcast(intent);
+        }
     }
 
     //Save last fetched time, location info
