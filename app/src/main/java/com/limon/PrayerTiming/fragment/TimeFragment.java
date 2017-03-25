@@ -94,7 +94,13 @@ public class TimeFragment extends Fragment {
         super.onResume();
 
         this.mContext = getContext();
-        loadSavedTunePreferences();
+
+        if(AjanTune.isInitialSetTune(mContext)){
+            loadInitalTunePreferences();
+        } else {
+            loadSavedTunePreferences();
+        }
+
         if (!checkPermissionGranted()) {
             askForPermission();
         } else {
@@ -193,6 +199,20 @@ public class TimeFragment extends Fragment {
         }
 
         mTodayDate.setText(Helper.getCurrentDate("with space"));
+    }
+
+    private void loadInitalTunePreferences() {
+        AjanTune.setTune(mContext, getResources().getString(R.string.fajr), true);
+        AjanTune.setTune(mContext, getResources().getString(R.string.dhuhr), true);
+        AjanTune.setTune(mContext, getResources().getString(R.string.asr), true);
+        AjanTune.setTune(mContext, getResources().getString(R.string.maghrib), true);
+        AjanTune.setTune(mContext, getResources().getString(R.string.isha), true);
+
+        mFajrSwitch.setChecked(true);
+        mDhuhrSwitch.setChecked(true);
+        mAsrSwitch.setChecked(true);
+        mMaghribSwitch.setChecked(true);
+        mIshaSwitch.setChecked(true);
     }
 
     //initialize azan tune checkbox from shared preferences

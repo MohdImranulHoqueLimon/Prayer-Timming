@@ -149,8 +149,7 @@
                     android:id="@+id/fajrSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    />
+                    android:layout_marginRight="15dp"/>
             </LinearLayout>
 
             <View
