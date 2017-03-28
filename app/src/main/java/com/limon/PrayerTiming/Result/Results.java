@@ -19,6 +19,6 @@ public class Results {
     }
 
     public static void showToast(Context context, String toastMessage){
-        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show();
     }
 }

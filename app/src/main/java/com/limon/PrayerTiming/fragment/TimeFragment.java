@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -95,12 +96,18 @@ public class TimeFragment extends Fragment {
 
         this.mContext = getContext();
 
-        if(AjanTune.isInitialSetTune(mContext)){
+        if (AjanTune.isInitialSetTune(mContext)) {
             loadInitalTunePreferences();
         } else {
             loadSavedTunePreferences();
         }
+        Results.showLog("infinity", "infinity loop");
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.mContext = getContext();
         if (!checkPermissionGranted()) {
             askForPermission();
         } else {
@@ -109,13 +116,9 @@ public class TimeFragment extends Fragment {
     }
 
     private boolean checkPermissionGranted() {
-
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            return false;
-        }
-        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.INTERNET)
-                != PackageManager.PERMISSION_GRANTED) {
+            Results.showToast(getContext(), "Location service permission is denied !");
             return false;
         }
         return true;
@@ -125,25 +128,27 @@ public class TimeFragment extends Fragment {
         ActivityCompat.requestPermissions(
                 getActivity(),
                 new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.INTERNET,
-                        Manifest.permission.SEND_SMS
+                        Manifest.permission.ACCESS_FINE_LOCATION
                 },
                 MY_PERMISSIONS_REQUEST
         );
+    }
+
+    private boolean isLocationServiceOn() {
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                        && grantResults[1] == PackageManager.PERMISSION_GRANTED
-                        && grantResults[2] == PackageManager.PERMISSION_GRANTED
-                        ) {
-                } else {
-                    //getActivity().finish();
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startFetchDataService();
                 }
                 return;
             }
