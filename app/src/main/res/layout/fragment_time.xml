@@ -26,7 +26,7 @@
                 android:id="@+id/textAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=" Indoneshia 2-E Road"
+                android:text=""
                 android:textColor="@color/colorBlack"
                 android:gravity=""
                 android:drawableLeft="@drawable/man"

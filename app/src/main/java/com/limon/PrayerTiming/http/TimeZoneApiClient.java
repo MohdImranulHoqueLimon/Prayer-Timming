@@ -12,7 +12,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TimeZoneApiClient {
 
-    //https://maps.googleapis.com/maps/api/timezone/json?location=23.810332,90.4125181&timestamp=1458000000&key=AIzaSyDVGyCIPH2uaxZQPUWvp_xn2khSwEdy8xE
     public static final String BASE_URL = "https://maps.googleapis.com/maps/api/";
 
     private static Retrofit retrofit = null;

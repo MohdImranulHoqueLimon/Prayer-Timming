@@ -79,6 +79,7 @@ public class FetchDataService extends Service {
             @Override
             public void onFailure(Call<TimeZoneDetails> call, Throwable t) {
                 Results.showLog("On failure fetch time zone string");
+                fetchPrayerTimeData(Helper.getTimeZoneString());
             }
         });
     }

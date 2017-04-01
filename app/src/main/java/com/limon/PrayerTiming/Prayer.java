@@ -175,6 +175,6 @@ public class Prayer {
         AlarmManager alarm_manager = (AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
         alarm_manager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (secondAfter * 1000), pendingIntent);
 
-        Toast.makeText(mContext, "Azan after : " + secondAfter / 3600 + " Hour " + ((secondAfter % 3600) / 60) + "Minute", Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, "Azan after : " + secondAfter / 3600 + " Hour " + ((secondAfter % 3600) / 60) + " Minute", Toast.LENGTH_LONG).show();
     }
 }

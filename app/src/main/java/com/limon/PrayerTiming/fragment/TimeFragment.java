@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -22,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.limon.PrayerTiming.GPS.GPSTracker;
 import com.limon.PrayerTiming.Prayer;
 import com.limon.PrayerTiming.R;
 import com.limon.PrayerTiming.Result.Results;
@@ -31,12 +34,17 @@ import com.limon.PrayerTiming.http.time.model.Timing;
 import com.limon.PrayerTiming.service.FetchDataService;
 import com.limon.PrayerTiming.utility.AjanTune;
 
+import java.util.List;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class TimeFragment extends Fragment {
 
+    @BindView(R.id.textAddress)
+    TextView mLocationAddress;
     @BindView(R.id.txtFajrTime)
     TextView mFajrTime;
     @BindView(R.id.txtDhuhrTime)
@@ -190,16 +198,16 @@ public class TimeFragment extends Fragment {
 
     private void startFetchDataService() {
 
-        mPrayer = new Prayer(mContext);
+        mPrayer = new Prayer(getContext());
         if (mPrayer.isNeedFetchTime()) {
-            mProgressBar = new ProgressDialog(this.mContext);
+            mProgressBar = new ProgressDialog(getContext());
             mProgressBar.setMessage("Getting initial data ...");
             mProgressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             mProgressBar.show();
 
             try {
-                Intent intent = new Intent(mContext, FetchDataService.class);
-                mContext.startService(intent);
+                Intent intent = new Intent(getActivity(), FetchDataService.class);
+                getActivity().startService(intent);
             } catch (Exception e) {
                 Log.d("salat_time", "Exception starting fetch service");
             }
@@ -231,6 +239,9 @@ public class TimeFragment extends Fragment {
                 mTimeLeft.setText((secondToNextPrayer / 3600) + " HRS " + ((secondToNextPrayer % 3600) / 60) + " MINS LEFT");
 
                 mPrayer.setPrayerAlarm(secondToNextPrayer);
+
+                GPSTracker gpsTracker = new GPSTracker(getContext());
+                mLocationAddress.setText(gpsTracker.getStreetLocationName(gpsTracker.getLatitude(), gpsTracker.getLongitude()));
             }
         } catch (NullPointerException nullPointerException) {
             nullPointerException.printStackTrace();
