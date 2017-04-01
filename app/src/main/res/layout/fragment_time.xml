@@ -26,10 +26,8 @@
                 android:id="@+id/textAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:textColor="@color/colorBlack"
-                android:gravity=""
-                android:drawableLeft="@drawable/man"
+                android:gravity="center"
                 android:textSize="16dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="2dp"/>
@@ -40,8 +38,7 @@
                 android:text="UPCOMING PRAYER"
                 android:textColor="@color/colorBlack"
                 android:layout_below="@id/textAddress"
-                android:textStyle=""
-                android:textSize="18dp"/>
+                android:textSize="17dp"/>
             <TextView
                 android:id="@+id/txtUpcomingPrayer"
                 android:layout_width="match_parent"
@@ -164,10 +161,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/viewLine2"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="7dp"
                 android:layout_marginLeft="17dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="7dp">
 
                 <TextView
                     android:id="@+id/txtDhuhr"
@@ -175,9 +172,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="Dhuhr"
-                    android:textColor="@color/colorLIGHTCORAL"
-                    android:textSize="22dp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/colorBlack"
+                    android:textSize="22dp"/>
 
                 <TextView
                     android:id="@+id/txtDhuhrTime"
@@ -187,7 +183,6 @@
                     android:layout_weight="1"
                     android:text="05:34 AM"
                     android:textAlignment="textEnd"
-                    android:textColor="@color/colorLIGHTCORAL"
                     android:textSize="17dp"
                     android:textStyle="bold" />
 
@@ -210,10 +205,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/dhuhrLinearLayout"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="7dp"
                 android:layout_marginLeft="17dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="7dp">
 
                 <TextView
                     android:id="@+id/txtAsr"
@@ -254,10 +249,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/viewLine4"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="7dp"
                 android:layout_marginLeft="17dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="7dp">
 
                 <TextView
                     android:id="@+id/txtMaghrib"
@@ -301,7 +296,7 @@
                 android:layout_marginBottom="14dp"
                 android:layout_marginLeft="17dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="7dp">
 
                 <TextView
                     android:id="@+id/txtIsha"

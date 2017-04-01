@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -61,6 +62,16 @@ public class TimeFragment extends Fragment {
     TextView mUpcomingPrayer;
     @BindView(R.id.textTimeLeft)
     TextView mTimeLeft;
+    @BindView(R.id.txtFajr)
+    TextView mTxtFajr;
+    @BindView(R.id.txtDhuhr)
+    TextView mTxtDhuhr;
+    @BindView(R.id.txtAsr)
+    TextView mTxtAsr;
+    @BindView(R.id.txtMaghrib)
+    TextView mTxtMaghrib;
+    @BindView(R.id.txtIsha)
+    TextView mTxtIsha;
     @BindView(R.id.fajrSwitch)
     Switch mFajrSwitch;
     @BindView(R.id.dhuhrSwitch)
@@ -232,25 +243,52 @@ public class TimeFragment extends Fragment {
                 mAsarTime.setText(timingObj.getFormattedAsrTime(timeFormat));
                 mMaghribTime.setText(timingObj.getFormattedMaghribTime(timeFormat));
                 mIshaTime.setText(timingObj.getFormattedIshaTime(timeFormat));
-
-                mPrayer = new Prayer(mContext);
-                int secondToNextPrayer = mPrayer.getNextPrayerInSecond();
-                Results.showLog("nexttime", secondToNextPrayer + "");
-                String upcommingPrayer = mPrayer.prayerName[mPrayer.currentPrayerNumber];
-                mUpcomingPrayer.setText(upcommingPrayer);
-                mTimeLeft.setText((secondToNextPrayer / 3600) + " HRS " + ((secondToNextPrayer % 3600) / 60) + " MINS LEFT");
-
-                mPrayer.setPrayerAlarm(secondToNextPrayer);
-
-                GPSTracker gpsTracker = new GPSTracker(mContext);
-                String myLocation = gpsTracker.getStreetLocationName(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-                mLocationAddress.setText(myLocation);
+                setHeaderInfoOnView();
             }
         } catch (NullPointerException nullPointerException) {
             nullPointerException.printStackTrace();
         }
-
         mTodayDate.setText(Helper.getCurrentDate("with space"));
+    }
+
+    private void setHeaderInfoOnView() {
+
+        mPrayer = new Prayer(mContext);
+        int secondToNextPrayer = mPrayer.getNextPrayerInSecond();
+        String upcomingPrayer = mPrayer.prayerName[mPrayer.currentPrayerNumber];
+        mUpcomingPrayer.setText(upcomingPrayer);
+        mTimeLeft.setText((secondToNextPrayer / 3600) + " HRS " + ((secondToNextPrayer % 3600) / 60) + " MINS LEFT");
+
+        mPrayer.setPrayerAlarm(secondToNextPrayer);
+        GPSTracker gpsTracker = new GPSTracker(mContext);
+        String myLocation = gpsTracker.getStreetLocationName(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        mLocationAddress.setText(myLocation);
+
+        if (mPrayer.currentPrayerNumber == 0) {
+            mFajrTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
+            mTxtFajr.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
+            mTxtFajr.setTypeface(null, Typeface.BOLD);
+        }
+        else if (mPrayer.currentPrayerNumber == 1) {
+            mDhuhrTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
+            mTxtDhuhr.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
+            mTxtDhuhr.setTypeface(null, Typeface.BOLD);
+        }
+        else if (mPrayer.currentPrayerNumber == 2) {
+            mAsarTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
+            mTxtAsr.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
+            mTxtAsr.setTypeface(null, Typeface.BOLD);
+        }
+        else if (mPrayer.currentPrayerNumber == 3) {
+            mMaghribTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
+            mTxtMaghrib.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
+            mTxtMaghrib.setTypeface(null, Typeface.BOLD);
+        }
+        else if (mPrayer.currentPrayerNumber == 4) {
+            mIshaTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
+            mTxtIsha.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
+            mTxtIsha.setTypeface(null, Typeface.BOLD);
+        }
     }
 
     private void loadInitalTunePreferences() {
@@ -301,8 +339,9 @@ public class TimeFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        try{
+        try {
             getActivity().unregisterReceiver(this.broadcastReceiver);
-        } catch (Exception ex){}
+        } catch (Exception ex) {
+        }
     }
 }
