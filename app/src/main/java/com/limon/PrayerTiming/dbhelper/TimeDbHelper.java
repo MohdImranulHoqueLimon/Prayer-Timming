@@ -24,7 +24,6 @@ public class TimeDbHelper extends SQLiteOpenHelper {
     private static final String LOG_DATA_TABLE = "log_data";
 
     private static final String KEY_ID = "id";
-    private static final String DAY_NUMBER = "day_number";
     private static final String DATE = "date";
     private static final String FAJR = "fajr";
     private static final String SUNRISE = "sunrise";
@@ -132,8 +131,6 @@ public class TimeDbHelper extends SQLiteOpenHelper {
     }
 
     public String getFajrPrayerTime(String dateTime) {
-
-        Timing namazTiming = null;
 
         String selectQuery = "SELECT " + FAJR + " FROM " + TIME_TABLE + " WHERE " + DATE + " = '" + dateTime + "'";
         SQLiteDatabase db = this.getReadableDatabase();

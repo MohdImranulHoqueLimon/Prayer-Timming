@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.limon.PrayerTiming.Result.Results;
 import com.limon.PrayerTiming.service.FetchDataService;
 
 import java.io.IOException;
@@ -54,7 +55,6 @@ public class GPSTracker extends Service implements LocationListener {
                             LocationManager.NETWORK_PROVIDER,
                             MIN_TIME_BW_UPDATES,
                             MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                    Log.d("Network", "Network");
                     if (locationManager != null) {
                         location = locationManager
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -70,7 +70,6 @@ public class GPSTracker extends Service implements LocationListener {
                                 LocationManager.GPS_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
                                 MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                        Log.d("GPS Enabled", "GPS Enabled");
                         if (locationManager != null) {
                             location = locationManager
                                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -122,7 +121,15 @@ public class GPSTracker extends Service implements LocationListener {
             String cityName = addresses.get(0).getAddressLine(0);
             String stateName = addresses.get(0).getAddressLine(1);
             String countryName = addresses.get(0).getAddressLine(2);
-            locationName = cityName + stateName + countryName;
+            if(cityName != null){
+                locationName += cityName;
+            }
+            if(stateName != null){
+                locationName += " " + stateName;
+            }
+            if(countryName != null){
+                locationName += " " + countryName;
+            }
         } catch (Exception exception) {
             exception.printStackTrace();
         }

@@ -84,6 +84,26 @@ public class TimeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
         ButterKnife.bind(this, rootView);
 
+        this.mContext = getContext();
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        this.mContext = getContext();
+        setTimeBroadcastReceiver();
+
+        if (AjanTune.isInitialSetTune(mContext)) {
+            loadInitalTunePreferences();
+        } else {
+            loadSavedTunePreferences();
+        }
+        Results.showLog("infinity", "infinity loop");
+    }
+
+    public void setTimeBroadcastReceiver() {
         //A broadcast receiver fired when time fetching will done
         IntentFilter intentFilter = new IntentFilter("com.prayertime.FETCH_FINISHED");
         broadcastReceiver = new BroadcastReceiver() {
@@ -95,24 +115,7 @@ public class TimeFragment extends Fragment {
                 showTimingOnView();
             }
         };
-        this.mContext = getContext();
         mContext.registerReceiver(broadcastReceiver, intentFilter);
-
-        return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        this.mContext = getContext();
-
-        if (AjanTune.isInitialSetTune(mContext)) {
-            loadInitalTunePreferences();
-        } else {
-            loadSavedTunePreferences();
-        }
-        Results.showLog("infinity", "infinity loop");
     }
 
     @Override
@@ -159,7 +162,7 @@ public class TimeFragment extends Fragment {
             Results.showToast(getContext(), "Location service permission is denied !");
             Results.showLog("access", "not access");
             return false;
-        } else{
+        } else {
             Results.showLog("access", "access");
         }
         return true;
@@ -209,7 +212,6 @@ public class TimeFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), FetchDataService.class);
                 getActivity().startService(intent);
             } catch (Exception e) {
-                Log.d("salat_time", "Exception starting fetch service");
             }
         } else {
             Results.showLog("Did not fetch");
@@ -240,8 +242,9 @@ public class TimeFragment extends Fragment {
 
                 mPrayer.setPrayerAlarm(secondToNextPrayer);
 
-                GPSTracker gpsTracker = new GPSTracker(getContext());
-                mLocationAddress.setText(gpsTracker.getStreetLocationName(gpsTracker.getLatitude(), gpsTracker.getLongitude()));
+                GPSTracker gpsTracker = new GPSTracker(mContext);
+                String myLocation = gpsTracker.getStreetLocationName(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                mLocationAddress.setText(myLocation);
             }
         } catch (NullPointerException nullPointerException) {
             nullPointerException.printStackTrace();
@@ -293,5 +296,13 @@ public class TimeFragment extends Fragment {
                 AjanTune.setTune(mContext, getResources().getString(R.string.isha), isChecked);
                 break;
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        try{
+            getActivity().unregisterReceiver(this.broadcastReceiver);
+        } catch (Exception ex){}
     }
 }
