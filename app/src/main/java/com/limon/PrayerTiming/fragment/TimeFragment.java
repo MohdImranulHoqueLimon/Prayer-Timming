@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.limon.PrayerTiming.GPS.GPSTracker;
 import com.limon.PrayerTiming.Prayer;
@@ -72,16 +73,16 @@ public class TimeFragment extends Fragment {
     TextView mTxtMaghrib;
     @BindView(R.id.txtIsha)
     TextView mTxtIsha;
-    @BindView(R.id.fajrSwitch)
-    Switch mFajrSwitch;
-    @BindView(R.id.dhuhrSwitch)
-    Switch mDhuhrSwitch;
-    @BindView(R.id.asrSwitch)
-    Switch mAsrSwitch;
-    @BindView(R.id.maghribSwitch)
-    Switch mMaghribSwitch;
-    @BindView(R.id.ishaSwitch)
-    Switch mIshaSwitch;
+    @BindView(R.id.fajrToggleButton)
+    ToggleButton mFajrToggleButton;
+    @BindView(R.id.dhuhrToggleButton)
+    ToggleButton mDhuhrToggleButton;
+    @BindView(R.id.asrToggleButton)
+    ToggleButton mAsrToggleButton;
+    @BindView(R.id.maghribToggleButton)
+    ToggleButton mMaghribToggleButton;
+    @BindView(R.id.ishaToggleButton)
+    ToggleButton mIshaToggleButton;
 
     private ProgressDialog mProgressBar;
     private Prayer mPrayer;
@@ -298,39 +299,39 @@ public class TimeFragment extends Fragment {
         AjanTune.setTune(mContext, getResources().getString(R.string.maghrib), true);
         AjanTune.setTune(mContext, getResources().getString(R.string.isha), true);
 
-        mFajrSwitch.setChecked(true);
-        mDhuhrSwitch.setChecked(true);
-        mAsrSwitch.setChecked(true);
-        mMaghribSwitch.setChecked(true);
-        mIshaSwitch.setChecked(true);
+        mFajrToggleButton.setChecked(true);
+        mDhuhrToggleButton.setChecked(true);
+        mAsrToggleButton.setChecked(true);
+        mMaghribToggleButton.setChecked(true);
+        mIshaToggleButton.setChecked(true);
     }
 
     //initialize azan tune checkbox from shared preferences
     private void loadSavedTunePreferences() {
-        mFajrSwitch.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.fajr)));
-        mDhuhrSwitch.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.dhuhr)));
-        mAsrSwitch.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.asr)));
-        mMaghribSwitch.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.maghrib)));
-        mIshaSwitch.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.isha)));
+        mFajrToggleButton.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.fajr)));
+        mDhuhrToggleButton.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.dhuhr)));
+        mAsrToggleButton.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.asr)));
+        mMaghribToggleButton.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.maghrib)));
+        mIshaToggleButton.setChecked(AjanTune.getIsTune(mContext, getResources().getString(R.string.isha)));
     }
 
-    @OnClick({R.id.fajrSwitch, R.id.dhuhrSwitch, R.id.asrSwitch, R.id.maghribSwitch, R.id.ishaSwitch})
+    @OnClick({R.id.fajrToggleButton, R.id.dhuhrToggleButton, R.id.asrToggleButton, R.id.maghribToggleButton, R.id.ishaToggleButton})
     public void setTuneSetting(View view) {
-        boolean isChecked = ((Switch) view).isChecked();
+        boolean isChecked = ((ToggleButton) view).isChecked();
         switch (view.getId()) {
-            case R.id.fajrSwitch:
+            case R.id.fajrToggleButton:
                 AjanTune.setTune(mContext, getResources().getString(R.string.fajr), isChecked);
                 break;
-            case R.id.dhuhrSwitch:
+            case R.id.dhuhrToggleButton:
                 AjanTune.setTune(mContext, getResources().getString(R.string.dhuhr), isChecked);
                 break;
-            case R.id.asrSwitch:
+            case R.id.asrToggleButton:
                 AjanTune.setTune(mContext, getResources().getString(R.string.asr), isChecked);
                 break;
-            case R.id.maghribSwitch:
+            case R.id.maghribToggleButton:
                 AjanTune.setTune(mContext, getResources().getString(R.string.maghrib), isChecked);
                 break;
-            case R.id.ishaSwitch:
+            case R.id.ishaToggleButton:
                 AjanTune.setTune(mContext, getResources().getString(R.string.isha), isChecked);
                 break;
         }
