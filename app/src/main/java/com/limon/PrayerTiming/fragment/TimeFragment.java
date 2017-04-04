@@ -35,6 +35,8 @@ import com.limon.PrayerTiming.helper.Helper;
 import com.limon.PrayerTiming.http.time.model.Timing;
 import com.limon.PrayerTiming.service.FetchDataService;
 import com.limon.PrayerTiming.utility.AjanTune;
+import com.wang.avi.AVLoadingIndicatorView;
+import com.wang.avi.indicators.BallPulseIndicator;
 
 import java.util.List;
 import java.util.Locale;
@@ -47,6 +49,7 @@ public class TimeFragment extends Fragment {
 
     @BindView(R.id.textAddress)
     TextView mLocationAddress;
+
     @BindView(R.id.txtFajrTime)
     TextView mFajrTime;
     @BindView(R.id.txtDhuhrTime)
@@ -57,12 +60,17 @@ public class TimeFragment extends Fragment {
     TextView mMaghribTime;
     @BindView(R.id.txtIshaTime)
     TextView mIshaTime;
+
     @BindView(R.id.txtEnglishDate)
     TextView mTodayDate;
+    @BindView(R.id.txtArabicDate)
+    TextView mTodayArabicDate;
+
     @BindView(R.id.txtUpcomingPrayer)
     TextView mUpcomingPrayer;
     @BindView(R.id.textTimeLeft)
     TextView mTimeLeft;
+
     @BindView(R.id.txtFajr)
     TextView mTxtFajr;
     @BindView(R.id.txtDhuhr)
@@ -73,6 +81,7 @@ public class TimeFragment extends Fragment {
     TextView mTxtMaghrib;
     @BindView(R.id.txtIsha)
     TextView mTxtIsha;
+
     @BindView(R.id.fajrToggleButton)
     ToggleButton mFajrToggleButton;
     @BindView(R.id.dhuhrToggleButton)
@@ -89,6 +98,7 @@ public class TimeFragment extends Fragment {
     private BroadcastReceiver broadcastReceiver;
     private Context mContext;
     private static final int MY_PERMISSIONS_REQUEST = 99;
+    private View rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,7 +106,9 @@ public class TimeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
         ButterKnife.bind(this, rootView);
 
+        this.rootView = rootView;
         this.mContext = getContext();
+
         return rootView;
     }
 
@@ -124,6 +136,7 @@ public class TimeFragment extends Fragment {
                 if (mProgressBar != null && mProgressBar.isShowing()) {
                     mProgressBar.hide();
                 }
+                rootView.findViewById(R.id.anim).setVisibility(View.GONE);
                 showTimingOnView();
             }
         };
@@ -215,10 +228,13 @@ public class TimeFragment extends Fragment {
 
         mPrayer = new Prayer(getContext());
         if (mPrayer.isNeedFetchTime()) {
+
+            rootView.findViewById(R.id.anim).setVisibility(View.VISIBLE);
+
             mProgressBar = new ProgressDialog(getContext());
             mProgressBar.setMessage("Getting initial data ...");
             mProgressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            mProgressBar.show();
+            //mProgressBar.show();
 
             try {
                 Intent intent = new Intent(getActivity(), FetchDataService.class);

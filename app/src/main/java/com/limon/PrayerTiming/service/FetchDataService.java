@@ -108,15 +108,15 @@ public class FetchDataService extends Service {
                 } catch (Exception ex) {
                     Results.showToast(getApplicationContext(), "Problem: Check network connection and/or location service");
                     Results.showLog("Screwed up? fetch data");
-                    onFinishDataProcess();
+                    onFailedFetchData();
                 }
             }
 
             @Override
             public void onFailure(Call<PrayerTime> call, Throwable t) {
-                Results.showToast(getApplicationContext(), "Problem: Check network connection and/or location service");
+                Results.showToast(getApplicationContext(), "Check Network Connection");
                 Results.showLog("On failure fetch data");
-                onFinishDataProcess();
+                onFailedFetchData();
             }
         });
     }
@@ -155,6 +155,11 @@ public class FetchDataService extends Service {
             }
         }
         stopSelf();
+    }
+
+    private void onFailedFetchData(){
+        Intent intent = new Intent("com.prayertime.FETCH_FINISHED");
+        getApplicationContext().sendBroadcast(intent);
     }
 
     private void onFinishDataProcess() {

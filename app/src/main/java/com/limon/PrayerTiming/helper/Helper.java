@@ -1,5 +1,10 @@
 package com.limon.PrayerTiming.helper;
 
+import android.icu.util.IslamicCalendar;
+import android.icu.util.ULocale;
+
+import com.limon.PrayerTiming.Result.Results;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -71,6 +76,11 @@ public class Helper {
     public static String getCurrentDate(String format) {
         int date = Calendar.getInstance().get(Calendar.DATE);
         return (String.format("%02d", date) + " " + getCurrentMonthShortName() + " " + getCurrentYear());
+    }
+
+    public static void getCurrentArabicDate(){
+        /*ULocale fa_IR = new ULocale("fa_IR@calendar=persian");
+        Calendar persianCalendar = Calendar.getInstance(fa_IR);*/
     }
 
     public static String get24TimeTo12HourTime(String time, String timeFormat) {
