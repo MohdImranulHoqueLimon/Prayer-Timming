@@ -24,7 +24,7 @@ import java.util.concurrent.Exchanger;
 public class Prayer {
 
     private Context mContext;
-    public static int currentPrayerNumber;
+    public static int nextPrayerNumber;
     public String prayerName[] = {"Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"};
 
     public Prayer(Context context) {
@@ -85,7 +85,7 @@ public class Prayer {
                 }
                 if (curentTimeInSecond < nextTimeInSecond) {
                     timeDifferenceCurentToNext = nextTimeInSecond - curentTimeInSecond;
-                    this.currentPrayerNumber = cnt;
+                    this.nextPrayerNumber = cnt;
                     find = true;
                 }
                 /*
@@ -94,7 +94,7 @@ public class Prayer {
                   when the day will be 365 ans for the next day 365 = (365+1)%365 = 1
                  */
                 if (cnt == 4 && find == false) {
-                    this.currentPrayerNumber = 0;
+                    this.nextPrayerNumber = 0;
                     findingFlag = 0;
                     find = true;
                 }

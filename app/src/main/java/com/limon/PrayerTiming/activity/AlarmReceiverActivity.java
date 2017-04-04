@@ -1,6 +1,7 @@
 package com.limon.PrayerTiming.activity;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -10,6 +11,8 @@ import android.view.WindowManager;
 
 import com.limon.PrayerTiming.Prayer;
 import com.limon.PrayerTiming.R;
+import com.limon.PrayerTiming.helper.Helper;
+import com.limon.PrayerTiming.utility.AjanTune;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -29,10 +32,10 @@ public class AlarmReceiverActivity extends Activity {
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(
-                        WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                WindowManager.LayoutParams.FLAG_FULLSCREEN |
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
-                        WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                WindowManager.LayoutParams.FLAG_FULLSCREEN |
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
         );
@@ -54,12 +57,42 @@ public class AlarmReceiverActivity extends Activity {
         int nextTimeInSecond = prayer.getNextPrayerInSecond();
         prayer.setPrayerAlarm(nextTimeInSecond);
 
-        try{
-            mMediaPlayer = MediaPlayer.create(AlarmReceiverActivity.this, R.raw.azan);
-            mMediaPlayer.start();
-        } catch (Exception exception) {
+        try {
+            if (isRingToneMode()) {
+                //for fajr azan
+                if ((Prayer.nextPrayerNumber - 1) == 0) {
+                    mMediaPlayer = MediaPlayer.create(AlarmReceiverActivity.this, R.raw.azan);
+                } else {
+                    mMediaPlayer = MediaPlayer.create(AlarmReceiverActivity.this, R.raw.azan_fajr);
+                }
+                mMediaPlayer.start();
+            }
+        } catch (Exception exception) {}
+        prayer = null;
+    }
 
+    private boolean isRingToneMode() {
+
+        AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        boolean isRingToneNormal = am.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
+
+        int currentPrayer = Prayer.nextPrayerNumber - 1;
+        Context context = getApplicationContext();
+
+        boolean isAlertActive = true;
+        if (currentPrayer == 0) {
+            isAlertActive = AjanTune.getIsTune(context, getResources().getString(R.string.fajr));
+        } else if (currentPrayer == 1) {
+            isAlertActive = AjanTune.getIsTune(context, getResources().getString(R.string.dhuhr));
+        } else if (currentPrayer == 2) {
+            isAlertActive = AjanTune.getIsTune(context, getResources().getString(R.string.asr));
+        } else if (currentPrayer == 3) {
+            isAlertActive = AjanTune.getIsTune(context, getResources().getString(R.string.maghrib));
+        } else {
+            isAlertActive = AjanTune.getIsTune(context, getResources().getString(R.string.isha));
         }
+
+        return (isRingToneNormal & isAlertActive);
     }
 
     protected void onStop() {

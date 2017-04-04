@@ -272,7 +272,7 @@ public class TimeFragment extends Fragment {
 
         mPrayer = new Prayer(mContext);
         int secondToNextPrayer = mPrayer.getNextPrayerInSecond();
-        String upcomingPrayer = mPrayer.prayerName[mPrayer.currentPrayerNumber];
+        String upcomingPrayer = mPrayer.prayerName[mPrayer.nextPrayerNumber];
         mUpcomingPrayer.setText(upcomingPrayer);
         mTimeLeft.setText((secondToNextPrayer / 3600) + " HRS " + ((secondToNextPrayer % 3600) / 60) + " MINS LEFT");
 
@@ -281,27 +281,27 @@ public class TimeFragment extends Fragment {
         String myLocation = gpsTracker.getStreetLocationName(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         mLocationAddress.setText(myLocation);
 
-        if (mPrayer.currentPrayerNumber == 0) {
+        if (mPrayer.nextPrayerNumber == 0) {
             mFajrTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtFajr.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtFajr.setTypeface(null, Typeface.BOLD);
         }
-        else if (mPrayer.currentPrayerNumber == 1) {
+        else if (mPrayer.nextPrayerNumber == 1) {
             mDhuhrTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtDhuhr.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtDhuhr.setTypeface(null, Typeface.BOLD);
         }
-        else if (mPrayer.currentPrayerNumber == 2) {
+        else if (mPrayer.nextPrayerNumber == 2) {
             mAsarTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtAsr.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtAsr.setTypeface(null, Typeface.BOLD);
         }
-        else if (mPrayer.currentPrayerNumber == 3) {
+        else if (mPrayer.nextPrayerNumber == 3) {
             mMaghribTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtMaghrib.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtMaghrib.setTypeface(null, Typeface.BOLD);
         }
-        else if (mPrayer.currentPrayerNumber == 4) {
+        else if (mPrayer.nextPrayerNumber == 4) {
             mIshaTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtIsha.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtIsha.setTypeface(null, Typeface.BOLD);
