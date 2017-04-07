@@ -65,10 +65,16 @@ public class AlarmReceiverActivity extends Activity {
                 Results.showLog("setringtone", "ringtone activate");
                 //for fajr azan
                 if ((Prayer.nextPrayerNumber - 1) == 0) {
+                    //TODO; AZAN MP3 SHOULD CHANGE SIZE MINIMISE AND ALSO THERE IS EXTRA SPECH AT THE LAST OF THE AZAN
                     mMediaPlayer = MediaPlayer.create(AlarmReceiverActivity.this, R.raw.azan);
                 } else {
                     mMediaPlayer = MediaPlayer.create(AlarmReceiverActivity.this, R.raw.azan_fajr);
                 }
+                mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    public void onCompletion(MediaPlayer mp) {
+                        finish();
+                    }
+                });
                 mMediaPlayer.start();
             }
         } catch (Exception exception) {
