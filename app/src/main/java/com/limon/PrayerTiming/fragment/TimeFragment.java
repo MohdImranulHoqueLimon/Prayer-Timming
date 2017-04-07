@@ -124,7 +124,6 @@ public class TimeFragment extends Fragment {
         } else {
             loadSavedTunePreferences();
         }
-        Results.showLog("infinity", "infinity loop");
     }
 
     public void setTimeBroadcastReceiver() {
@@ -185,10 +184,7 @@ public class TimeFragment extends Fragment {
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             Results.showToast(getContext(), "Location service permission is denied !");
-            Results.showLog("access", "not access");
             return false;
-        } else {
-            Results.showLog("access", "access");
         }
         return true;
     }
@@ -242,7 +238,6 @@ public class TimeFragment extends Fragment {
             } catch (Exception e) {
             }
         } else {
-            Results.showLog("Did not fetch");
             showTimingOnView();
         }
         mPrayer = null;

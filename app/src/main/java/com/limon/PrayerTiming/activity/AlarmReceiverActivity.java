@@ -11,6 +11,7 @@ import android.view.WindowManager;
 
 import com.limon.PrayerTiming.Prayer;
 import com.limon.PrayerTiming.R;
+import com.limon.PrayerTiming.Result.Results;
 import com.limon.PrayerTiming.helper.Helper;
 import com.limon.PrayerTiming.utility.AjanTune;
 
@@ -48,7 +49,9 @@ public class AlarmReceiverActivity extends Activity {
 
     @OnClick(R.id.btnStopAlarm)
     public void stopAlarm() {
-        mMediaPlayer.stop();
+        if (mMediaPlayer != null) {
+            mMediaPlayer.stop();
+        }
         finish();
     }
 
@@ -59,6 +62,7 @@ public class AlarmReceiverActivity extends Activity {
 
         try {
             if (isRingToneMode()) {
+                Results.showLog("setringtone", "ringtone activate");
                 //for fajr azan
                 if ((Prayer.nextPrayerNumber - 1) == 0) {
                     mMediaPlayer = MediaPlayer.create(AlarmReceiverActivity.this, R.raw.azan);
@@ -67,14 +71,15 @@ public class AlarmReceiverActivity extends Activity {
                 }
                 mMediaPlayer.start();
             }
-        } catch (Exception exception) {}
+        } catch (Exception exception) {
+        }
         prayer = null;
     }
 
     private boolean isRingToneMode() {
 
         AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        boolean isRingToneNormal = am.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
+        boolean isRingToneNormal = (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL);
 
         int currentPrayer = Prayer.nextPrayerNumber - 1;
         Context context = getApplicationContext();
@@ -96,9 +101,13 @@ public class AlarmReceiverActivity extends Activity {
     }
 
     protected void onStop() {
+        try {
+            mMediaPlayer.stop();
+            mWakeLock.release();
+        } catch (Exception exception) {
+
+        }
         super.onStop();
-        mMediaPlayer.stop();
-        mWakeLock.release();
     }
 
 }

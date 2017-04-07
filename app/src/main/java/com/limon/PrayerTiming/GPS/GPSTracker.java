@@ -113,6 +113,7 @@ public class GPSTracker extends Service implements LocationListener {
         return this.canGetLocation;
     }
 
+    //TODO; Get permission at runtime for marshmallow or upper version
     public String getStreetLocationName(double lat, double lon) {
         String locationName = "";
         try {
@@ -121,6 +122,7 @@ public class GPSTracker extends Service implements LocationListener {
             String cityName = addresses.get(0).getAddressLine(0);
             String stateName = addresses.get(0).getAddressLine(1);
             String countryName = addresses.get(0).getAddressLine(2);
+
             if(cityName != null){
                 locationName += cityName;
             }
