@@ -51,23 +51,17 @@ public class Prayer {
             String formatedMaghribtime = Helper.get24TimeTo12HourTime(maghribTime, "h-mm-a");
             String formatedIshaTime = Helper.get24TimeTo12HourTime(ishaTime, "h-mm-a");
 
-            String[] splitArray = {
-                    formatedFajrTime,
-                    formatedDhuhrTime,
-                    formatedAsrTime,
-                    formatedMaghribtime,
-                    formatedIshaTime
-            };
+            String[] splitArray = {formatedFajrTime, formatedDhuhrTime, formatedAsrTime,
+                    formatedMaghribtime, formatedIshaTime};
 
             boolean find = false;
-
-            Calendar c = Calendar.getInstance();
-            int curentHour = c.get(Calendar.HOUR);
-            int curentMinute = c.get(Calendar.MINUTE);
+            Calendar calendar = Calendar.getInstance();
+            int curentHour = calendar.get(Calendar.HOUR);
+            int curentMinute = calendar.get(Calendar.MINUTE);
             int curentTimeInSecond = (curentHour * 3600) + (curentMinute * 60);
 
             //If current time is pm
-            int amOrPm = c.get(Calendar.AM_PM);
+            int amOrPm = calendar.get(Calendar.AM_PM);
             if (amOrPm == 1) {
                 curentTimeInSecond = curentTimeInSecond + (12 * 3600);
             }
@@ -130,18 +124,18 @@ public class Prayer {
         if (timing == null) {
             isNeed = true;
         } else {*/
-            if (logData != null) {
-                double lastLat = logData.latitude;
-                double lastLong = logData.longitude;
+        if (logData != null) {
+            double lastLat = logData.latitude;
+            double lastLong = logData.longitude;
 
-                if (getDistance(currentLat, currentLong, lastLat, lastLong) > 50.0) {
-                    isNeed = true;
-                }
-            }
-            if (logData == null) {
+            if (getDistance(currentLat, currentLong, lastLat, lastLong) > 50.0) {
                 isNeed = true;
             }
-            gpsTracker = null;
+        }
+        if (logData == null) {
+            isNeed = true;
+        }
+        gpsTracker = null;
         //}
 
         return isNeed;
@@ -176,5 +170,12 @@ public class Prayer {
         alarm_manager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (secondAfter * 1000), pendingIntent);
 
         Toast.makeText(mContext, "Azan after : " + secondAfter / 3600 + " Hour " + ((secondAfter % 3600) / 60) + " Minute", Toast.LENGTH_LONG).show();
+    }
+
+    public static int getCurrentPrayer() {
+        if (nextPrayerNumber == 0) {
+            return 4;
+        }
+        return nextPrayerNumber - 1;
     }
 }

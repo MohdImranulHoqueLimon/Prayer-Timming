@@ -27,6 +27,7 @@ public class AlarmReceiverActivity extends Activity {
 
         super.onCreate(savedInstanceState);
 
+        //TODO; Deprecated full wake lock should remove
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Wake Log");
         mWakeLock.acquire();
@@ -62,14 +63,14 @@ public class AlarmReceiverActivity extends Activity {
 
         try {
             if (isRingToneMode()) {
-                Results.showLog("setringtone", "ringtone activate");
-                //for fajr azan
-                if ((Prayer.nextPrayerNumber - 1) == 0) {
+                int currentPrayer = Prayer.getCurrentPrayer();
+                if (currentPrayer == 0) {
                     //TODO; AZAN MP3 SHOULD CHANGE SIZE MINIMISE AND ALSO THERE IS EXTRA SPECH AT THE LAST OF THE AZAN
-                    mMediaPlayer = MediaPlayer.create(AlarmReceiverActivity.this, R.raw.azan);
-                } else {
                     mMediaPlayer = MediaPlayer.create(AlarmReceiverActivity.this, R.raw.azan_fajr);
+                } else {
+                    mMediaPlayer = MediaPlayer.create(AlarmReceiverActivity.this, R.raw.azan);
                 }
+                mMediaPlayer = MediaPlayer.create(AlarmReceiverActivity.this, R.raw.azan);
                 mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     public void onCompletion(MediaPlayer mp) {
                         finish();
@@ -77,8 +78,7 @@ public class AlarmReceiverActivity extends Activity {
                 });
                 mMediaPlayer.start();
             }
-        } catch (Exception exception) {
-        }
+        } catch (Exception exception) {}
         prayer = null;
     }
 
@@ -87,7 +87,7 @@ public class AlarmReceiverActivity extends Activity {
         AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         boolean isRingToneNormal = (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL);
 
-        int currentPrayer = Prayer.nextPrayerNumber - 1;
+        int currentPrayer = Prayer.getCurrentPrayer();
         Context context = getApplicationContext();
 
         boolean isAlertActive = true;
