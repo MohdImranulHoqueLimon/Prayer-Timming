@@ -38,6 +38,7 @@ import com.limon.PrayerTiming.utility.AjanTune;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.wang.avi.indicators.BallPulseIndicator;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Locale;
 
@@ -261,6 +262,7 @@ public class TimeFragment extends Fragment {
             nullPointerException.printStackTrace();
         }
         mTodayDate.setText(Helper.getCurrentDate("with space"));
+        mTodayArabicDate.setText(Helper.getCurrentArabicDate());
     }
 
     private void setHeaderInfoOnView() {

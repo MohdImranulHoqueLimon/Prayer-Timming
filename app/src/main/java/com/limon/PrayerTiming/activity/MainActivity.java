@@ -1,5 +1,6 @@
 package com.limon.PrayerTiming.activity;
 
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 
 import com.limon.PrayerTiming.R;
 import com.limon.PrayerTiming.fragment.QiblaFragment;
@@ -17,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     private ViewPager mViewPager;
+
+    private int[] imageResId = {R.drawable.time, R.drawable.kaba};
+    private String tabTitles[] = new String[] {"Time", "Qibla"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +72,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Time";
-                case 1:
-                    return "Qibla";
-            }
-            return null;
+            // Generate title based on item position
+            Drawable image = getApplicationContext().getResources().getDrawable(imageResId[position]);
+            image.setBounds(10, 20, image.getIntrinsicWidth()-45, image.getIntrinsicHeight()-35);
+            // Replace blank spaces with image icon
+            SpannableString sb = new SpannableString("  " + tabTitles[position]);
+            ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
+            sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return sb;
         }
     }
 }

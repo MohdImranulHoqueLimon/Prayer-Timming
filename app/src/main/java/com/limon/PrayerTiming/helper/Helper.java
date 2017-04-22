@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -55,7 +56,7 @@ public class Helper {
         calendar.setTime(date);
         calendar.add(Calendar.DATE, 1);
 
-        return  String.format("%02d", calendar.get(Calendar.DATE)) + " " +
+        return String.format("%02d", calendar.get(Calendar.DATE)) + " " +
                 Months[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.YEAR);
     }
 
@@ -78,9 +79,12 @@ public class Helper {
         return (String.format("%02d", date) + " " + getCurrentMonthShortName() + " " + getCurrentYear());
     }
 
-    public static void getCurrentArabicDate(){
-        /*ULocale fa_IR = new ULocale("fa_IR@calendar=persian");
-        Calendar persianCalendar = Calendar.getInstance(fa_IR);*/
+    public static String getCurrentArabicDate() {
+        Locale locale = new Locale("ar");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd, yyy", locale);
+        Date currDate = new Date();
+        String formattedDate = sdf.format(currDate);
+        return formattedDate;
     }
 
     public static String get24TimeTo12HourTime(String time, String timeFormat) {

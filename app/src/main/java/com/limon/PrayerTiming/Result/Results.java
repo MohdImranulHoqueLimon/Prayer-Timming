@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 public class Results {
 
+    //TODO; remove all logs from project
     public static void showLog(String logMessage) {
         Log.d("salat_log", logMessage);
     }

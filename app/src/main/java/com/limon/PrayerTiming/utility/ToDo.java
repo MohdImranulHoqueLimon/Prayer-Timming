@@ -6,9 +6,8 @@ package com.limon.PrayerTiming.utility;
 
 public class ToDo {
     //Should check if gps permission is enable if not show settings to enable gps this
-    //works for more that android lolipop version
 
-    //remove all logs from project
+    //works for more that android lolipop version
 
     //remove all unused image and layouts
 
@@ -21,7 +20,5 @@ public class ToDo {
     //check compass with latest mobile
 
     //try to avoid using deprecated functions
-
-    //fix arabic date
 
 }
