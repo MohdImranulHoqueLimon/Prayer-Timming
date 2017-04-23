@@ -33,8 +33,6 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
     ImageView image;
     @BindView(R.id.arrowImage)
     ImageView mArrow;
-    @BindView(R.id.tvHeading)
-    TextView tvHeading;
 
     public static final double QIBLA_LATITUDE = Math.toRadians(21.423333);
     public static final double QIBLA_LONGITUDE = Math.toRadians(39.823333);
@@ -74,7 +72,6 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
 
         // get the angle around the z-axis rotated
         float degree = Math.round(event.values[0]);
-        tvHeading.setText("Heading: " + Float.toString(degree) + " degrees");
 
         // create a rotation animation (reverse turn degree degrees)
         RotateAnimation ra = new RotateAnimation(currentDegree, -degree, Animation.RELATIVE_TO_SELF,

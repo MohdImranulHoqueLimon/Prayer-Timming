@@ -116,27 +116,37 @@ public class Prayer {
 
         double currentLat = gpsTracker.getLatitude();
         double currentLong = gpsTracker.getLongitude();
+        gpsTracker = null;
 
         TimeDbHelper timeDbHelper = new TimeDbHelper(this.mContext);
         LogData logData = timeDbHelper.getLastLogData();
 
-        /*Timing timing = timeDbHelper.getPrayerTime(Helper.getCurrentDate("with space"));
-        if (timing == null) {
-            isNeed = true;
-        } else {*/
-        if (logData != null) {
-            double lastLat = logData.latitude;
-            double lastLong = logData.longitude;
+        Timing timing = timeDbHelper.getPrayerTime(Helper.getCurrentDate("with space"));
 
-            if (getDistance(currentLat, currentLong, lastLat, lastLong) > 50.0) {
+        if (timing == null) {
+            Results.showLog("timezonefetch", "current date data does not exist");
+            isNeed = true;
+        } else {
+            if (logData != null) {
+
+                double lastLat = logData.latitude;
+                double lastLong = logData.longitude;
+
+                Results.showLog("timezonefetch", "last log data " + lastLat + " " + lastLong + "");
+
+                if (getDistance(currentLat, currentLong, lastLat, lastLong) > 50.0) {
+                    isNeed = true;
+                }
+            } else {
                 isNeed = true;
             }
         }
-        if (logData == null) {
-            isNeed = true;
+
+        if(isNeed == true){
+            Results.showLog("timezonefetch", "need fetch time");
+        } else {
+            Results.showLog("timezonefetch", "not need fetch time");
         }
-        gpsTracker = null;
-        //}
 
         return isNeed;
     }
@@ -168,8 +178,7 @@ public class Prayer {
 
         AlarmManager alarm_manager = (AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
         alarm_manager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (secondAfter * 1000), pendingIntent);
-
-        Toast.makeText(mContext, "Azan after : " + secondAfter / 3600 + " Hour " + ((secondAfter % 3600) / 60) + " Minute", Toast.LENGTH_LONG).show();
+        //Toast.makeText(mContext, "Azan after : " + secondAfter / 3600 + " Hour " + ((secondAfter % 3600) / 60) + " Minute", Toast.LENGTH_LONG).show();
     }
 
     public static int getCurrentPrayer() {

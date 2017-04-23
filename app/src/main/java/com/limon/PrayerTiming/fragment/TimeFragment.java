@@ -237,6 +237,7 @@ public class TimeFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), FetchDataService.class);
                 getActivity().startService(intent);
             } catch (Exception e) {
+
             }
         } else {
             showTimingOnView();

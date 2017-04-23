@@ -4,16 +4,6 @@
     android:layout_height="match_parent"
     android:background="#fff">
 
-    <TextView
-        android:id="@+id/tvHeading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="20dp"
-        android:text="Heading: 0.0" />
-
-
     <FrameLayout
         android:id="@+id/qiblaLayout"
         android:layout_width="wrap_content"
@@ -35,7 +25,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/arrow" />
-
     </FrameLayout>
 
 </RelativeLayout>

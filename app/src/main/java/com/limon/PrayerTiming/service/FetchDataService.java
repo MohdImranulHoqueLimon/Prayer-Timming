@@ -114,7 +114,6 @@ public class FetchDataService extends Service {
 
             @Override
             public void onFailure(Call<PrayerTime> call, Throwable t) {
-                Results.showToast(getApplicationContext(), "Check Network Connection");
                 Results.showLog("On failure fetch data");
                 onFailedFetchData();
             }

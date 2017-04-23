@@ -9,17 +9,13 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.util.Log;
 
-import com.limon.PrayerTiming.Result.Results;
 import com.limon.PrayerTiming.service.FetchDataService;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class GPSTracker extends Service implements LocationListener {
+public class GPSTracker implements LocationListener {
 
     private final Context mContext;
     boolean isGPSEnabled = false;
@@ -31,7 +27,7 @@ public class GPSTracker extends Service implements LocationListener {
     public static double longitude;
 
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 30 kilometer
-    private static final long MIN_TIME_BW_UPDATES = 1000; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 60000; // 1 minute
 
     protected LocationManager locationManager;
 
@@ -42,7 +38,7 @@ public class GPSTracker extends Service implements LocationListener {
 
     public Location getLocation() {
         try {
-            locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
+            locationManager = (LocationManager) mContext.getSystemService(mContext.LOCATION_SERVICE);
             isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
@@ -116,25 +112,23 @@ public class GPSTracker extends Service implements LocationListener {
     //TODO; Get permission at runtime for marshmallow or upper version
     public String getStreetLocationName(double lat, double lon) {
         String locationName = "";
-        try {
+        /*try {
             Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(lat, lon, 5);
             String cityName = addresses.get(0).getAddressLine(0);
             String stateName = addresses.get(0).getAddressLine(1);
             String countryName = addresses.get(0).getAddressLine(2);
 
-            if(cityName != null){
+            if (cityName != null) {
                 locationName += cityName;
             }
-            if(stateName != null){
+            if (stateName != null) {
                 locationName += " " + stateName;
             }
-            if(countryName != null){
+            if (countryName != null) {
                 locationName += " " + countryName;
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
+        } catch (Exception exception) {}*/
         return locationName;
     }
 
@@ -155,11 +149,6 @@ public class GPSTracker extends Service implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-    @Override
-    public IBinder onBind(Intent arg0) {
-        return null;
     }
 
 }

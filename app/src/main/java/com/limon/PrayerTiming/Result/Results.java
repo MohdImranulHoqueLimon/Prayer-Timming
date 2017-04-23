@@ -19,7 +19,7 @@ public class Results {
         Log.d(tag, logMessage);
     }
 
-    public static void showToast(Context context, String toastMessage){
+    public static void showToast(Context context, String toastMessage) {
         Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show();
     }
 }
