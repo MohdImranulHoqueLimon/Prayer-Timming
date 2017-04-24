@@ -2,7 +2,6 @@ package com.limon.PrayerTiming.fragment;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,16 +12,15 @@ import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -35,10 +33,7 @@ import com.limon.PrayerTiming.helper.Helper;
 import com.limon.PrayerTiming.http.time.model.Timing;
 import com.limon.PrayerTiming.service.FetchDataService;
 import com.limon.PrayerTiming.utility.AjanTune;
-import com.wang.avi.AVLoadingIndicatorView;
-import com.wang.avi.indicators.BallPulseIndicator;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.Locale;
 
@@ -94,7 +89,6 @@ public class TimeFragment extends Fragment {
     @BindView(R.id.ishaToggleButton)
     ToggleButton mIshaToggleButton;
 
-    private ProgressDialog mProgressBar;
     private Prayer mPrayer;
     private BroadcastReceiver broadcastReceiver;
     private Context mContext;
@@ -133,11 +127,9 @@ public class TimeFragment extends Fragment {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (mProgressBar != null && mProgressBar.isShowing()) {
-                    mProgressBar.hide();
-                }
                 rootView.findViewById(R.id.anim).setVisibility(View.GONE);
                 showTimingOnView();
+                setStreetLocationName();
             }
         };
         mContext.registerReceiver(broadcastReceiver, intentFilter);
@@ -222,17 +214,9 @@ public class TimeFragment extends Fragment {
     }
 
     private void startFetchDataService() {
-
         mPrayer = new Prayer(getContext());
         if (mPrayer.isNeedFetchTime()) {
-
             rootView.findViewById(R.id.anim).setVisibility(View.VISIBLE);
-
-            mProgressBar = new ProgressDialog(getContext());
-            mProgressBar.setMessage("Getting initial data ...");
-            mProgressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            //mProgressBar.show();
-
             try {
                 Intent intent = new Intent(getActivity(), FetchDataService.class);
                 getActivity().startService(intent);
@@ -245,7 +229,7 @@ public class TimeFragment extends Fragment {
         mPrayer = null;
     }
 
-    public void showTimingOnView() {
+    private void showTimingOnView() {
         try {
             TimeDbHelper timeDbHelper = new TimeDbHelper(mContext);
             Timing timingObj = timeDbHelper.getPrayerTime(Helper.getCurrentDate("with space"));
@@ -275,31 +259,29 @@ public class TimeFragment extends Fragment {
         mTimeLeft.setText((secondToNextPrayer / 3600) + " HRS " + ((secondToNextPrayer % 3600) / 60) + " MINS LEFT");
 
         mPrayer.setPrayerAlarm(secondToNextPrayer);
-        GPSTracker gpsTracker = new GPSTracker(mContext);
-        String myLocation = gpsTracker.getStreetLocationName(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-        mLocationAddress.setText(myLocation);
+        setStreetLocationName();
 
         if (mPrayer.nextPrayerNumber == 0) {
             mFajrTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtFajr.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtFajr.setTypeface(null, Typeface.BOLD);
-        }
-        else if (mPrayer.nextPrayerNumber == 1) {
+
+        } else if (mPrayer.nextPrayerNumber == 1) {
             mDhuhrTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtDhuhr.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtDhuhr.setTypeface(null, Typeface.BOLD);
-        }
-        else if (mPrayer.nextPrayerNumber == 2) {
+
+        } else if (mPrayer.nextPrayerNumber == 2) {
             mAsarTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtAsr.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtAsr.setTypeface(null, Typeface.BOLD);
-        }
-        else if (mPrayer.nextPrayerNumber == 3) {
+
+        } else if (mPrayer.nextPrayerNumber == 3) {
             mMaghribTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtMaghrib.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtMaghrib.setTypeface(null, Typeface.BOLD);
-        }
-        else if (mPrayer.nextPrayerNumber == 4) {
+
+        } else if (mPrayer.nextPrayerNumber == 4) {
             mIshaTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtIsha.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
             mTxtIsha.setTypeface(null, Typeface.BOLD);
@@ -348,6 +330,36 @@ public class TimeFragment extends Fragment {
             case R.id.ishaToggleButton:
                 AjanTune.setTune(mContext, getResources().getString(R.string.isha), isChecked);
                 break;
+        }
+    }
+
+    //TODO; Get permission at runtime for marshmallow or upper version
+    public void setStreetLocationName() {
+        GPSTracker gpsTracker = new GPSTracker(getContext());
+        double lat = gpsTracker.getLatitude();
+        double lon = gpsTracker.getLongitude();
+        AddressTask addressTask = new AddressTask();
+        addressTask.execute(lat, lon);
+    }
+
+    private class AddressTask extends AsyncTask<Double, Object, String> {
+
+        protected String doInBackground(Double... locations) {
+            String locationName = "";
+            try {
+                Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+                List<Address> addresses = geocoder.getFromLocation(locations[0], locations[1], 4);
+
+                String cityName = addresses.get(0).getAddressLine(0);
+                String stateName = addresses.get(0).getAddressLine(1);
+                String countryName = addresses.get(0).getAddressLine(2);
+                locationName = cityName + " " + stateName + " " + countryName;
+            } catch (Exception exception) {
+            }
+            return locationName.replace("null", "");
+        }
+        protected void onPostExecute(String result) {
+            mLocationAddress.setText(result);
         }
     }
 

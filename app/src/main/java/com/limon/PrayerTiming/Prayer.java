@@ -120,20 +120,14 @@ public class Prayer {
 
         TimeDbHelper timeDbHelper = new TimeDbHelper(this.mContext);
         LogData logData = timeDbHelper.getLastLogData();
-
         Timing timing = timeDbHelper.getPrayerTime(Helper.getCurrentDate("with space"));
 
         if (timing == null) {
-            Results.showLog("timezonefetch", "current date data does not exist");
             isNeed = true;
         } else {
             if (logData != null) {
-
                 double lastLat = logData.latitude;
                 double lastLong = logData.longitude;
-
-                Results.showLog("timezonefetch", "last log data " + lastLat + " " + lastLong + "");
-
                 if (getDistance(currentLat, currentLong, lastLat, lastLong) > 50.0) {
                     isNeed = true;
                 }
@@ -141,13 +135,6 @@ public class Prayer {
                 isNeed = true;
             }
         }
-
-        if(isNeed == true){
-            Results.showLog("timezonefetch", "need fetch time");
-        } else {
-            Results.showLog("timezonefetch", "not need fetch time");
-        }
-
         return isNeed;
     }
 

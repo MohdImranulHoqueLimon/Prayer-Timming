@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.limon.PrayerTiming.GPS.GPSTracker;
 import com.limon.PrayerTiming.Prayer;
 import com.limon.PrayerTiming.Result.Results;
 import com.limon.PrayerTiming.service.FetchDataService;
@@ -25,15 +26,16 @@ public class PrayerTimeReciever extends BroadcastReceiver {
 
         if (mPrayer.isNeedFetchTime()) {
             try {
-                Results.showLog("Service Need to fetch time");
+                GPSTracker gpsTracker = new GPSTracker(mContext);
                 Intent fetchIntent = new Intent(mContext, FetchDataService.class);
                 fetchIntent.putExtra("IS_BACKGROUND_PROCESS", true);
+                fetchIntent.putExtra("latitude", gpsTracker.getLatitude());
+                fetchIntent.putExtra("longitude", gpsTracker.getLongitude());
                 mContext.startService(fetchIntent);
             } catch (Exception e) {
 
             }
         } else {
-            Results.showLog("Service Need to fetch time");
             int secondToNextPrayer = mPrayer.getNextPrayerInSecond();
             mPrayer.setPrayerAlarm(secondToNextPrayer);
         }

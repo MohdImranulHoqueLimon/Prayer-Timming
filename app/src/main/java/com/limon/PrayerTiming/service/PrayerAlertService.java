@@ -15,9 +15,9 @@ import com.limon.PrayerTiming.dbhelper.TimeDbHelper;
  * Created by Limon on 3/6/2017.
  */
 
+//TODO; Need to stop this service after task done;
 public class PrayerAlertService extends Service {
 
-    private TimeDbHelper mTimeDbHelper;
     private Prayer mPrayer;
 
     @Nullable
@@ -28,13 +28,9 @@ public class PrayerAlertService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        mTimeDbHelper = new TimeDbHelper(getApplicationContext());
         mPrayer = new Prayer(getApplicationContext());
-
         if (mPrayer.isNeedFetchTime()) {
             try {
-                Results.showLog("Service Need to fetch time");
                 Intent fetchIntent = new Intent(getBaseContext(), FetchDataService.class);
                 fetchIntent.putExtra("IS_BACKGROUND_PROCESS", true);
                 getApplicationContext().startService(fetchIntent);
@@ -42,7 +38,6 @@ public class PrayerAlertService extends Service {
 
             }
         } else {
-            Results.showLog("Service Need to fetch time");
             int secondToNextPrayer = mPrayer.getNextPrayerInSecond();
             mPrayer.setPrayerAlarm(secondToNextPrayer);
         }

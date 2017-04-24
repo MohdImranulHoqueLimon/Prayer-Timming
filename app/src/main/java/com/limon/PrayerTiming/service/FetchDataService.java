@@ -35,6 +35,7 @@ public class FetchDataService extends Service {
     TimeDbHelper timeDbHelper;
     GPSTracker gpsTracker;
     Intent mFetchIntent;
+    double curLatitude, curLongitude;
 
     @Nullable
     @Override
@@ -46,14 +47,24 @@ public class FetchDataService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         this.mFetchIntent = intent;
         timeDbHelper = new TimeDbHelper(getApplicationContext());
+        setCurrentLocation();
         getTimeZoneName();
         return START_STICKY;
     }
 
+    private void setCurrentLocation() {
+        curLatitude = mFetchIntent.getDoubleExtra("latitude", 0.0);
+        curLongitude = mFetchIntent.getDoubleExtra("longitude", 0.0);
+        if (curLongitude == 0.0 || curLongitude == 0.0) {
+            gpsTracker = new GPSTracker(getApplicationContext());
+            curLatitude = gpsTracker.getLatitude();
+            curLongitude = gpsTracker.getLongitude();
+        }
+    }
+
     private void getTimeZoneName() {
 
-        gpsTracker = new GPSTracker(getApplicationContext());
-        String location = gpsTracker.getLatitude() + "," + gpsTracker.getLongitude();
+        String location = curLatitude + "," + curLongitude;
         long unixTimeStamp = System.currentTimeMillis() / 1000L;
 
         TimeZoneApiInterface timeZoneApiInterface = TimeZoneApiClient.getClient().create(TimeZoneApiInterface.class);
@@ -86,15 +97,11 @@ public class FetchDataService extends Service {
 
     private synchronized void fetchPrayerTimeData(String timeZoneString) {
 
-        gpsTracker = new GPSTracker(getApplicationContext());
-
         int currentYear = Helper.getCurrentYear();
         int currentMonth = Helper.getCurrentMonth() + 1;
-        double latitude = gpsTracker.getLatitude();
-        double longitude = gpsTracker.getLongitude();
 
         PrayerTimeApiInterface prayerTimeApiInterface = ApiClient.getClient().create(PrayerTimeApiInterface.class);
-        Call<PrayerTime> call = prayerTimeApiInterface.getPrayerTime(latitude, longitude, timeZoneString, 2, currentMonth, currentYear);
+        Call<PrayerTime> call = prayerTimeApiInterface.getPrayerTime(curLatitude, curLongitude, timeZoneString, 2, currentMonth, currentYear);
 
         call.enqueue(new Callback<PrayerTime>() {
             @Override
@@ -156,7 +163,7 @@ public class FetchDataService extends Service {
         stopSelf();
     }
 
-    private void onFailedFetchData(){
+    private void onFailedFetchData() {
         Intent intent = new Intent("com.prayertime.FETCH_FINISHED");
         getApplicationContext().sendBroadcast(intent);
     }
@@ -177,10 +184,8 @@ public class FetchDataService extends Service {
     //Save last fetched time, location info
     private void saveLogData() {
         String currentDateTime = Helper.getCurrentDate();
-        double latitude = gpsTracker.getLatitude();
-        double longitude = gpsTracker.getLongitude();
         String location = "";
-        timeDbHelper.insertLog(currentDateTime, latitude, longitude, location);
+        timeDbHelper.insertLog(currentDateTime, curLatitude, curLongitude, location);
     }
 
     @Override
