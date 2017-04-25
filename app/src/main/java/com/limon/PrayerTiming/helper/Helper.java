@@ -104,5 +104,4 @@ public class Helper {
         return splitedTime[0];
     }
 
-
 }

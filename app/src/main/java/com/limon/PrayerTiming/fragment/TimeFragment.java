@@ -94,6 +94,8 @@ public class TimeFragment extends Fragment {
     private Context mContext;
     private static final int MY_PERMISSIONS_REQUEST = 99;
     private View rootView;
+    private GPSTracker gpsTracker;
+    private double currentLatitude, currentLongitude;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,6 +104,9 @@ public class TimeFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         this.rootView = rootView;
+        gpsTracker = new GPSTracker(getContext());
+        this.currentLatitude = gpsTracker.getLatitude();
+        this.currentLongitude = gpsTracker.getLongitude();
         this.mContext = getContext();
 
         return rootView;
@@ -262,30 +267,22 @@ public class TimeFragment extends Fragment {
         setStreetLocationName();
 
         if (mPrayer.nextPrayerNumber == 0) {
-            mFajrTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
-            mTxtFajr.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
-            mTxtFajr.setTypeface(null, Typeface.BOLD);
-
+            selectUpcomingPrayerView(mTxtFajr, mFajrTime);
         } else if (mPrayer.nextPrayerNumber == 1) {
-            mDhuhrTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
-            mTxtDhuhr.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
-            mTxtDhuhr.setTypeface(null, Typeface.BOLD);
-
+            selectUpcomingPrayerView(mTxtDhuhr, mDhuhrTime);
         } else if (mPrayer.nextPrayerNumber == 2) {
-            mAsarTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
-            mTxtAsr.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
-            mTxtAsr.setTypeface(null, Typeface.BOLD);
-
+            selectUpcomingPrayerView(mTxtAsr, mAsarTime);
         } else if (mPrayer.nextPrayerNumber == 3) {
-            mMaghribTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
-            mTxtMaghrib.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
-            mTxtMaghrib.setTypeface(null, Typeface.BOLD);
-
+            selectUpcomingPrayerView(mTxtMaghrib, mMaghribTime);
         } else if (mPrayer.nextPrayerNumber == 4) {
-            mIshaTime.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
-            mTxtIsha.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
-            mTxtIsha.setTypeface(null, Typeface.BOLD);
+            selectUpcomingPrayerView(mTxtIsha, mIshaTime);
         }
+    }
+
+    private void selectUpcomingPrayerView(TextView prayerNameView, TextView prayerTimeView) {
+        prayerNameView.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
+        prayerNameView.setTypeface(null, Typeface.BOLD);
+        prayerTimeView.setTextColor(getResources().getColor(R.color.colorLIGHTCORAL));
     }
 
     private void loadInitalTunePreferences() {
@@ -335,11 +332,8 @@ public class TimeFragment extends Fragment {
 
     //TODO; Get permission at runtime for marshmallow or upper version
     public void setStreetLocationName() {
-        GPSTracker gpsTracker = new GPSTracker(getContext());
-        double lat = gpsTracker.getLatitude();
-        double lon = gpsTracker.getLongitude();
         AddressTask addressTask = new AddressTask();
-        addressTask.execute(lat, lon);
+        addressTask.execute(currentLatitude, currentLongitude);
     }
 
     private class AddressTask extends AsyncTask<Double, Object, String> {
@@ -358,6 +352,7 @@ public class TimeFragment extends Fragment {
             }
             return locationName.replace("null", "");
         }
+
         protected void onPostExecute(String result) {
             mLocationAddress.setText(result);
         }

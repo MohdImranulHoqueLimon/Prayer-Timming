@@ -45,7 +45,7 @@ public class FetchDataService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        this.mFetchIntent = intent;
+        mFetchIntent = intent;
         timeDbHelper = new TimeDbHelper(getApplicationContext());
         setCurrentLocation();
         getTimeZoneName();
@@ -53,12 +53,16 @@ public class FetchDataService extends Service {
     }
 
     private void setCurrentLocation() {
-        curLatitude = mFetchIntent.getDoubleExtra("latitude", 0.0);
-        curLongitude = mFetchIntent.getDoubleExtra("longitude", 0.0);
-        if (curLongitude == 0.0 || curLongitude == 0.0) {
-            gpsTracker = new GPSTracker(getApplicationContext());
-            curLatitude = gpsTracker.getLatitude();
-            curLongitude = gpsTracker.getLongitude();
+        try {
+            curLatitude = mFetchIntent.getDoubleExtra("latitude", 0.0);
+            curLongitude = mFetchIntent.getDoubleExtra("longitude", 0.0);
+            if (curLongitude == 0.0 || curLongitude == 0.0) {
+                gpsTracker = new GPSTracker(getApplicationContext());
+                curLatitude = gpsTracker.getLatitude();
+                curLongitude = gpsTracker.getLongitude();
+            }
+        } catch (Exception exception) {
+
         }
     }
 
