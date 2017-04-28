@@ -1,11 +1,13 @@
 package com.limon.PrayerTiming.activity;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.app.Activity;
+import android.support.v4.app.NotificationCompat;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -77,8 +79,13 @@ public class AlarmReceiverActivity extends Activity {
                     }
                 });
                 mMediaPlayer.start();
+            } else {
+
             }
-        } catch (Exception exception) {}
+            showAlartNotification();
+        } catch (Exception exception) {
+
+        }
         prayer = null;
     }
 
@@ -106,6 +113,31 @@ public class AlarmReceiverActivity extends Activity {
         return (isRingToneNormal & isAlertActive);
     }
 
+    private void showAlartNotification() {
+
+        int currentPrayer = Prayer.getCurrentPrayer();
+        String prayerName;
+        if (currentPrayer == 0) {
+            prayerName = "Fajr";
+        } else if (currentPrayer == 1) {
+            prayerName = "Dhuhr";
+        } else if (currentPrayer == 2) {
+            prayerName = "Asr";
+        } else if (currentPrayer == 3) {
+            prayerName = "Maghrib";
+        } else {
+            prayerName = "Isha";
+        }
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.icon)
+                .setContentTitle("Prayer Time")
+                .setContentText("Your " + prayerName + " Prayer is remain!");
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(0, mBuilder.build());
+    }
+
     protected void onStop() {
         try {
             mMediaPlayer.stop();
@@ -116,5 +148,15 @@ public class AlarmReceiverActivity extends Activity {
         super.onStop();
     }
 
+    @Override
+    protected void onDestroy() {
+        try {
+            mMediaPlayer.stop();
+            mWakeLock.release();
+        } catch (Exception exception) {
+
+        }
+        super.onDestroy();
+    }
 }
 
