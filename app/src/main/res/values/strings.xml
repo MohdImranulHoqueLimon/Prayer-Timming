@@ -11,4 +11,6 @@
     <string name="sos_latitude">Lat</string>
     <string name="sos_longitude">Long</string>
     <string name="sos_time">Time</string>
+    <!-- This is an ad unit ID for a test ad. Replace with your own banner ad unit id. -->
+    <string name="banner_ad_unit_id">ca-app-pub-7856893858613226/6630102792</string>
 </resources>

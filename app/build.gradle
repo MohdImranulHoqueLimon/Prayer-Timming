@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -26,6 +27,7 @@ dependencies {
     })
 
     compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.google.android.gms:play-services:10.0.1'
     compile 'com.jakewharton:butterknife:8.2.1'
     compile 'com.jakewharton:butterknife-compiler:8.2.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'

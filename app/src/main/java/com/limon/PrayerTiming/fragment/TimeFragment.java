@@ -24,6 +24,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.limon.PrayerTiming.GPS.GPSTracker;
 import com.limon.PrayerTiming.Prayer;
 import com.limon.PrayerTiming.R;
@@ -89,6 +92,9 @@ public class TimeFragment extends Fragment {
     @BindView(R.id.ishaToggleButton)
     ToggleButton mIshaToggleButton;
 
+    //@BindView(R.id.ad_view)
+    //ToggleButton mIshaToggleButton;
+
     private Prayer mPrayer;
     private BroadcastReceiver broadcastReceiver;
     private Context mContext;
@@ -96,6 +102,8 @@ public class TimeFragment extends Fragment {
     private View rootView;
     private GPSTracker gpsTracker;
     private double currentLatitude, currentLongitude;
+
+    private AdView mAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -108,6 +116,23 @@ public class TimeFragment extends Fragment {
         this.currentLatitude = gpsTracker.getLatitude();
         this.currentLongitude = gpsTracker.getLongitude();
         this.mContext = getContext();
+
+        // Initialize the Mobile Ads SDK.
+        MobileAds.initialize(mContext, "ca-app-pub-3940256099942544~3347511713");
+
+        // Gets the ad view defined in layout/ad_fragment.xml with ad unit ID set in
+        // values/strings.xml.
+        mAdView = (AdView) rootView.findViewById(R.id.ad_view);
+
+        // Create an ad request. Check your logcat output for the hashed device ID to
+        // get test ads on a physical device. e.g.
+        // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+
+        // Start loading the ad in the background.
+        mAdView.loadAd(adRequest);
 
         return rootView;
     }
@@ -123,6 +148,10 @@ public class TimeFragment extends Fragment {
             loadInitalTunePreferences();
         } else {
             loadSavedTunePreferences();
+        }
+
+        if (mAdView != null) {
+            mAdView.resume();
         }
     }
 
@@ -365,5 +394,13 @@ public class TimeFragment extends Fragment {
             getActivity().unregisterReceiver(this.broadcastReceiver);
         } catch (Exception ex) {
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
 }

@@ -11,8 +11,6 @@ public class ToDo {
 
     //remove all unused image and layouts
 
-    //minimize the size of mp3 files
-
     // check the app can't crash
 
     //try to upload with old version with same package name and certificate key

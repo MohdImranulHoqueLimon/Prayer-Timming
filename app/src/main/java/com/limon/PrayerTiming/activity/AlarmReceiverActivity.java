@@ -67,7 +67,6 @@ public class AlarmReceiverActivity extends Activity {
             if (isRingToneMode()) {
                 int currentPrayer = Prayer.getCurrentPrayer();
                 if (currentPrayer == 0) {
-                    //TODO; AZAN MP3 SHOULD CHANGE SIZE MINIMISE AND ALSO THERE IS EXTRA SPECH AT THE LAST OF THE AZAN
                     mMediaPlayer = MediaPlayer.create(AlarmReceiverActivity.this, R.raw.azan_fajr);
                 } else {
                     mMediaPlayer = MediaPlayer.create(AlarmReceiverActivity.this, R.raw.azan);
