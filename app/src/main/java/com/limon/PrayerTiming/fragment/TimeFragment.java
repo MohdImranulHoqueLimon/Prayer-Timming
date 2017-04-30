@@ -92,8 +92,8 @@ public class TimeFragment extends Fragment {
     @BindView(R.id.ishaToggleButton)
     ToggleButton mIshaToggleButton;
 
-    //@BindView(R.id.ad_view)
-    //ToggleButton mIshaToggleButton;
+    @BindView(R.id.ad_view)
+    AdView mAdView;
 
     private Prayer mPrayer;
     private BroadcastReceiver broadcastReceiver;
@@ -102,8 +102,6 @@ public class TimeFragment extends Fragment {
     private View rootView;
     private GPSTracker gpsTracker;
     private double currentLatitude, currentLongitude;
-
-    private AdView mAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -118,15 +116,13 @@ public class TimeFragment extends Fragment {
         this.mContext = getContext();
 
         // Initialize the Mobile Ads SDK.
+        //TODO; Do I need this line of Code?
         MobileAds.initialize(mContext, "ca-app-pub-3940256099942544~3347511713");
 
-        // Gets the ad view defined in layout/ad_fragment.xml with ad unit ID set in
-        // values/strings.xml.
-        mAdView = (AdView) rootView.findViewById(R.id.ad_view);
+        // Create an ad request. Check your logcat output for the hashed device ID to get test ads
+        // on a physical device. e.g "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
 
-        // Create an ad request. Check your logcat output for the hashed device ID to
-        // get test ads on a physical device. e.g.
-        // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
+        //TODO; Remove .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) before deploy
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
