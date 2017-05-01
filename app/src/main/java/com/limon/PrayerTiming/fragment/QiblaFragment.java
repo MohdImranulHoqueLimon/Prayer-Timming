@@ -38,6 +38,7 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
     public static final double QIBLA_LONGITUDE = Math.toRadians(39.823333);
 
     private float currentDegree = 0f;
+    private float qiblaDirectionAngle = 0f;
     private SensorManager mSensorManager;
     private Context mContext;
 
@@ -67,6 +68,7 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         mSensorManager.unregisterListener(this);
     }
 
+    //TODO; should checkout if compass works with qibla direction perfectly
     @Override
     public void onSensorChanged(SensorEvent event) {
 
@@ -77,23 +79,28 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         RotateAnimation ra = new RotateAnimation(currentDegree, -degree, Animation.RELATIVE_TO_SELF,
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
+        qiblaDirectionAngle = (currentDegree + qiblaDirectionAngle) % 360;
+        RotateAnimation raDirection = new RotateAnimation(0, qiblaDirectionAngle, Animation.RELATIVE_TO_SELF,
+                0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+
         // how long the animation will take place
         ra.setDuration(210);
+        raDirection.setDuration(210);
         // set the animation after the end of the reservation status
         ra.setFillAfter(true);
+        raDirection.setFillAfter(true);
 
         // Start the animation
         image.startAnimation(ra);
+        mArrow.startAnimation(ra);
         currentDegree = -degree;
     }
 
     private void setQiblaDirection() {
         GPSTracker gpsTracker = new GPSTracker(mContext);
-
         float angle = (float) getQiblaDirectionFromNorth(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-        Results.showLog("qibla direction 1 ", angle + "");
-        if(angle < 0) angle = 360 + angle;
-        Results.showLog("qibla direction 2 ", angle + "");
+        if (angle < 0) angle = 360 + angle;
+        this.qiblaDirectionAngle = angle;
         // create a rotation animation (reverse turn degree degrees)
         RotateAnimation ra = new RotateAnimation(0, angle, Animation.RELATIVE_TO_SELF,
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);

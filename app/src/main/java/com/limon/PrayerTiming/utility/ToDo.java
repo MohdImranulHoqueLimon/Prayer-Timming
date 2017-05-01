@@ -19,4 +19,7 @@ public class ToDo {
 
     //try to avoid using deprecated functions
 
+    // change prayer alert page design
+
+    // onclick notification go to time fragment
 }

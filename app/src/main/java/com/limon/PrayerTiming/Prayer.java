@@ -104,9 +104,9 @@ public class Prayer {
             int nextMinute = Integer.parseInt(hourAndMinute[1]);
             timeDifferenceCurentToNext = ((24 * 3600) - (curentTimeInSecond)) + ((nextHour * 3600) + (nextMinute * 60));
         } catch (Exception exception) {
-            Results.showLog("nexttime", "Exception: " + exception.getMessage());
-        }
 
+        }
+        Results.showLog(timeDifferenceCurentToNext + "");
         return timeDifferenceCurentToNext;
     }
 
@@ -165,7 +165,7 @@ public class Prayer {
 
         AlarmManager alarm_manager = (AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
         alarm_manager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (secondAfter * 1000), pendingIntent);
-        //Toast.makeText(mContext, "Azan after : " + secondAfter / 3600 + " Hour " + ((secondAfter % 3600) / 60) + " Minute", Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, "Azan after : " + secondAfter / 3600 + " Hour " + ((secondAfter % 3600) / 60) + " Minute", Toast.LENGTH_LONG).show();
     }
 
     public static int getCurrentPrayer() {

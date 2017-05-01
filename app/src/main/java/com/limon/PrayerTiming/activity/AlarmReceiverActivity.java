@@ -1,7 +1,9 @@
 package com.limon.PrayerTiming.activity;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -128,13 +130,17 @@ public class AlarmReceiverActivity extends Activity {
             prayerName = "Isha";
         }
 
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle("Prayer Time")
-                .setContentText("Your " + prayerName + " Prayer is remain!");
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(0, mBuilder.build());
+                .setContentText("Your " + prayerName + " Prayer is remain!")
+                .setContentIntent(pIntent);
+
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(currentPrayer, mBuilder.build());
     }
 
     protected void onStop() {

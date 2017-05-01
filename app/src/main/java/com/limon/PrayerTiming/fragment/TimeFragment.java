@@ -117,7 +117,7 @@ public class TimeFragment extends Fragment {
 
         // Initialize the Mobile Ads SDK.
         //TODO; Do I need this line of Code?
-        MobileAds.initialize(mContext, "ca-app-pub-3940256099942544~3347511713");
+        //MobileAds.initialize(mContext, "ca-app-pub-3940256099942544~3347511713");
 
         // Create an ad request. Check your logcat output for the hashed device ID to get test ads
         // on a physical device. e.g "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
@@ -374,6 +374,7 @@ public class TimeFragment extends Fragment {
                 String countryName = addresses.get(0).getAddressLine(2);
                 locationName = cityName + " " + stateName + " " + countryName;
             } catch (Exception exception) {
+
             }
             return locationName.replace("null", "");
         }
