@@ -15,8 +15,6 @@ import android.view.WindowManager;
 
 import com.limon.PrayerTiming.Prayer;
 import com.limon.PrayerTiming.R;
-import com.limon.PrayerTiming.Result.Results;
-import com.limon.PrayerTiming.helper.Helper;
 import com.limon.PrayerTiming.utility.AjanTune;
 
 import butterknife.ButterKnife;
@@ -57,6 +55,16 @@ public class AlarmReceiverActivity extends Activity {
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
         }
+        finish();
+    }
+
+    @OnClick(R.id.btnSnooze)
+    public void snoozeAlarm() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer.stop();
+        }
+        Prayer prayer = new Prayer(getApplicationContext());
+        prayer.setPrayerAlarm(600);
         finish();
     }
 
@@ -134,7 +142,7 @@ public class AlarmReceiverActivity extends Activity {
         PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.icon)
+                .setSmallIcon(R.drawable.icon, 5)
                 .setContentTitle("Prayer Time")
                 .setContentText("Your " + prayerName + " Prayer is remain!")
                 .setContentIntent(pIntent);

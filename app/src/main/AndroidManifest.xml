@@ -26,7 +26,10 @@
         <service
             android:name=".service.FetchDataService"
             android:enabled="true" />
-        <activity android:name=".activity.AlarmReceiverActivity"></activity>
+        <activity
+            android:name=".activity.AlarmReceiverActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
         <receiver android:name=".Receiver.PrayerTimeReciever">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
