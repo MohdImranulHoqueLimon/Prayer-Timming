@@ -9,21 +9,25 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.app.Activity;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.limon.PrayerTiming.Prayer;
 import com.limon.PrayerTiming.R;
+import com.limon.PrayerTiming.Result.Results;
 import com.limon.PrayerTiming.utility.AjanTune;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Optional;
 
 public class AlarmReceiverActivity extends Activity {
 
     private MediaPlayer mMediaPlayer;
     private PowerManager.WakeLock mWakeLock;
+    private boolean isRingtoneModeOk = false;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -46,9 +50,22 @@ public class AlarmReceiverActivity extends Activity {
 
         setContentView(R.layout.alarm);
         ButterKnife.bind(this);
+
+        showAlartNotification();
         playAzanAlert();
+
+        if (!this.isRingtoneModeOk) {
+            finish();
+        }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isRingToneMode()) {
+            this.isRingtoneModeOk = true;
+        }
+    }
 
     @OnClick(R.id.btnStopAlarm)
     public void stopAlarm() {
@@ -88,10 +105,7 @@ public class AlarmReceiverActivity extends Activity {
                     }
                 });
                 mMediaPlayer.start();
-            } else {
-
             }
-            showAlartNotification();
         } catch (Exception exception) {
 
         }
@@ -151,24 +165,25 @@ public class AlarmReceiverActivity extends Activity {
         mNotificationManager.notify(currentPrayer, mBuilder.build());
     }
 
-    protected void onStop() {
+    private void stopMediaAndReleaseWakeLock() {
         try {
-            mMediaPlayer.stop();
+            if (mMediaPlayer != null) {
+                mMediaPlayer.stop();
+            }
             mWakeLock.release();
         } catch (Exception exception) {
 
         }
+    }
+
+    protected void onStop() {
+        stopMediaAndReleaseWakeLock();
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        try {
-            mMediaPlayer.stop();
-            mWakeLock.release();
-        } catch (Exception exception) {
-
-        }
+        stopMediaAndReleaseWakeLock();
         super.onDestroy();
     }
 }
