@@ -15,7 +15,6 @@ import com.limon.PrayerTiming.http.time.model.LogData;
 import com.limon.PrayerTiming.http.time.model.Timing;
 
 import java.util.Calendar;
-import java.util.concurrent.Exchanger;
 
 /**
  * Created by Limon on 2/21/2017.
@@ -106,7 +105,6 @@ public class Prayer {
         } catch (Exception exception) {
 
         }
-        Results.showLog(timeDifferenceCurentToNext + "");
         return timeDifferenceCurentToNext;
     }
 

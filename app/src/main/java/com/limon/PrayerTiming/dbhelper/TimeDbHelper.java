@@ -15,8 +15,6 @@ import com.limon.PrayerTiming.http.time.model.Timing;
 
 public class TimeDbHelper extends SQLiteOpenHelper {
 
-    private Context mContext;
-
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "prayer";
 
@@ -42,7 +40,6 @@ public class TimeDbHelper extends SQLiteOpenHelper {
 
     public TimeDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.mContext = context;
     }
 
     @Override

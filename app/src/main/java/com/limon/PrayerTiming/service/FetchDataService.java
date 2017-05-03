@@ -2,10 +2,8 @@ package com.limon.PrayerTiming.service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.limon.PrayerTiming.GPS.GPSTracker;
 import com.limon.PrayerTiming.Prayer;
@@ -19,8 +17,6 @@ import com.limon.PrayerTiming.http.time.model.PrayerTime;
 import com.limon.PrayerTiming.http.time.model.Timing;
 import com.limon.PrayerTiming.http.timezone.TimeZoneApiInterface;
 import com.limon.PrayerTiming.http.timezone.model.TimeZoneDetails;
-
-import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -86,14 +82,12 @@ public class FetchDataService extends Service {
                     }
                     fetchPrayerTimeData(timeZoneDetails.getTimeZoneId());
                 } catch (Exception ex) {
-                    Results.showLog("Screwed up? fetch time zone");
                     fetchPrayerTimeData(Helper.getTimeZoneString());
                 }
             }
 
             @Override
             public void onFailure(Call<TimeZoneDetails> call, Throwable t) {
-                Results.showLog("On failure fetch time zone string");
                 fetchPrayerTimeData(Helper.getTimeZoneString());
             }
         });
@@ -118,14 +112,12 @@ public class FetchDataService extends Service {
                     onSuccessFetchTimeData(prayerTime);
                 } catch (Exception ex) {
                     Results.showToast(getApplicationContext(), "Problem: Check network connection and/or location service");
-                    Results.showLog("Screwed up? fetch data");
                     onFailedFetchData();
                 }
             }
 
             @Override
             public void onFailure(Call<PrayerTime> call, Throwable t) {
-                Results.showLog("On failure fetch data");
                 onFailedFetchData();
             }
         });

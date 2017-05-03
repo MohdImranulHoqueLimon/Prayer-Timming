@@ -1,10 +1,5 @@
 package com.limon.PrayerTiming.helper;
 
-import android.icu.util.IslamicCalendar;
-import android.icu.util.ULocale;
-
-import com.limon.PrayerTiming.Result.Results;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

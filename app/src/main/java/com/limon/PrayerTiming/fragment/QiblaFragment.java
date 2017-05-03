@@ -6,7 +6,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +15,11 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.limon.PrayerTiming.GPS.GPSTracker;
 import com.limon.PrayerTiming.R;
-import com.limon.PrayerTiming.Result.Results;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +34,9 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
     ImageView image;
     @BindView(R.id.arrowImage)
     ImageView mArrow;
+
+    @BindView(R.id.qibla_ad_view)
+    AdView mAdView;
 
     public static final double QIBLA_LATITUDE = Math.toRadians(21.423333);
     public static final double QIBLA_LONGITUDE = Math.toRadians(39.823333);
@@ -49,6 +53,21 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         ButterKnife.bind(this, rootView);
         this.mContext = getContext();
         mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
+
+        // Initialize the Mobile Ads SDK.
+        //TODO; Do I need this line of Code?
+        MobileAds.initialize(mContext, "ca-app-pub-7856893858613226~5153369595");
+
+        // Create an ad request. Check your logcat output for the hashed device ID to get test ads
+        // on a physical device. e.g "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
+
+        //TODO; Remove .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) before deploy
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+
+        // Start loading the ad in the background.
+        mAdView.loadAd(adRequest);
 
         return rootView;
     }
