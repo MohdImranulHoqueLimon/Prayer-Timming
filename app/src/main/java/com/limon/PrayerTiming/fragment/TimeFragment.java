@@ -124,7 +124,7 @@ public class TimeFragment extends Fragment {
 
         //TODO; Remove .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) before deploy
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
 
         // Start loading the ad in the background.
