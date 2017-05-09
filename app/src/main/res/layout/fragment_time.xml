@@ -368,5 +368,5 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         app:adSize="BANNER"
-        app:adUnitId="@string/banner_ad_unit_id" />
+        app:adUnitId="@string/time_view_banner_ad_unit_id" />
 </LinearLayout>

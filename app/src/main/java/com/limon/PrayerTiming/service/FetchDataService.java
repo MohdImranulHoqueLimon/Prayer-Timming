@@ -2,10 +2,8 @@ package com.limon.PrayerTiming.service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.limon.PrayerTiming.GPS.GPSTracker;
 import com.limon.PrayerTiming.Prayer;
@@ -19,8 +17,6 @@ import com.limon.PrayerTiming.http.time.model.PrayerTime;
 import com.limon.PrayerTiming.http.time.model.Timing;
 import com.limon.PrayerTiming.http.timezone.TimeZoneApiInterface;
 import com.limon.PrayerTiming.http.timezone.model.TimeZoneDetails;
-
-import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,63 +64,72 @@ public class FetchDataService extends Service {
 
     private void getTimeZoneName() {
 
-        String location = curLatitude + "," + curLongitude;
-        long unixTimeStamp = System.currentTimeMillis() / 1000L;
+        if(curLongitude != 0.0 || curLongitude != 0.0) {
+            String location = curLatitude + "," + curLongitude;
+            long unixTimeStamp = System.currentTimeMillis() / 1000L;
 
-        TimeZoneApiInterface timeZoneApiInterface = TimeZoneApiClient.getClient().create(TimeZoneApiInterface.class);
-        Call<TimeZoneDetails> call = timeZoneApiInterface.getTimeZoneDetails(
-                location, unixTimeStamp, Helper.TIME_ZONE_API_KEY
-        );
+            TimeZoneApiInterface timeZoneApiInterface = TimeZoneApiClient.getClient().create(TimeZoneApiInterface.class);
+            Call<TimeZoneDetails> call = timeZoneApiInterface.getTimeZoneDetails(
+                    location, unixTimeStamp, Helper.TIME_ZONE_API_KEY
+            );
 
-        call.enqueue(new Callback<TimeZoneDetails>() {
-            @Override
-            public void onResponse(Call<TimeZoneDetails> call, Response<TimeZoneDetails> response) {
-                try {
-                    TimeZoneDetails timeZoneDetails = response.body();
-                    if (timeZoneDetails.getStatus() == null) {
-                        throw new NullPointerException("Error occurred");
+            call.enqueue(new Callback<TimeZoneDetails>() {
+                @Override
+                public void onResponse(Call<TimeZoneDetails> call, Response<TimeZoneDetails> response) {
+                    try {
+                        TimeZoneDetails timeZoneDetails = response.body();
+                        if (timeZoneDetails.getStatus() == null) {
+                            throw new NullPointerException("Error occurred");
+                        }
+                        fetchPrayerTimeData(timeZoneDetails.getTimeZoneId());
+                    } catch (Exception ex) {
+                        fetchPrayerTimeData(Helper.getTimeZoneString());
                     }
-                    fetchPrayerTimeData(timeZoneDetails.getTimeZoneId());
-                } catch (Exception ex) {
+                }
+
+                @Override
+                public void onFailure(Call<TimeZoneDetails> call, Throwable t) {
                     fetchPrayerTimeData(Helper.getTimeZoneString());
                 }
-            }
-
-            @Override
-            public void onFailure(Call<TimeZoneDetails> call, Throwable t) {
-                fetchPrayerTimeData(Helper.getTimeZoneString());
-            }
-        });
+            });
+        } else {
+            stopSelf();
+        }
     }
 
     private synchronized void fetchPrayerTimeData(String timeZoneString) {
 
-        int currentYear = Helper.getCurrentYear();
-        int currentMonth = Helper.getCurrentMonth() + 1;
+        if(curLatitude != 0.0 && curLongitude != 0.0) {
 
-        PrayerTimeApiInterface prayerTimeApiInterface = ApiClient.getClient().create(PrayerTimeApiInterface.class);
-        Call<PrayerTime> call = prayerTimeApiInterface.getPrayerTime(curLatitude, curLongitude, timeZoneString, 2, currentMonth, currentYear);
+            int currentYear = Helper.getCurrentYear();
+            int currentMonth = Helper.getCurrentMonth() + 1;
 
-        call.enqueue(new Callback<PrayerTime>() {
-            @Override
-            public void onResponse(Call<PrayerTime> call, Response<PrayerTime> response) {
-                try {
-                    PrayerTime prayerTime = response.body();
-                    if (prayerTime.getPrayertimeData() == null || prayerTime.getStatusCode() == 400) {
-                        throw new NullPointerException("Error occurred");
+            PrayerTimeApiInterface prayerTimeApiInterface = ApiClient.getClient().create(PrayerTimeApiInterface.class);
+            Call<PrayerTime> call = prayerTimeApiInterface.getPrayerTime(curLatitude, curLongitude, timeZoneString, 2, currentMonth, currentYear);
+
+            call.enqueue(new Callback<PrayerTime>() {
+                @Override
+                public void onResponse(Call<PrayerTime> call, Response<PrayerTime> response) {
+                    try {
+                        PrayerTime prayerTime = response.body();
+                        if (prayerTime.getPrayertimeData() == null || prayerTime.getStatusCode() == 400) {
+                            throw new NullPointerException("Error occurred");
+                        }
+                        onSuccessFetchTimeData(prayerTime);
+                    } catch (Exception ex) {
+                        Results.showToast(getApplicationContext(), "Problem: Check network connection and/or location service");
+                        onFailedFetchData();
                     }
-                    onSuccessFetchTimeData(prayerTime);
-                } catch (Exception ex) {
-                    Results.showToast(getApplicationContext(), "Problem: Check network connection and/or location service");
+                }
+
+                @Override
+                public void onFailure(Call<PrayerTime> call, Throwable t) {
                     onFailedFetchData();
                 }
-            }
-
-            @Override
-            public void onFailure(Call<PrayerTime> call, Throwable t) {
-                onFailedFetchData();
-            }
-        });
+            });
+        } else {
+            stopSelf();
+        }
     }
 
     private synchronized void onSuccessFetchTimeData(PrayerTime prayerTime) {

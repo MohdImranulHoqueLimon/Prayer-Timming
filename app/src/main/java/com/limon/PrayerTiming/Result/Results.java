@@ -12,11 +12,11 @@ public class Results {
 
     //TODO; remove all logs from project
     public static void showLog(String logMessage) {
-        Log.d("salat_log", logMessage);
+        //Log.d("salat_log", logMessage);
     }
 
     public static void showLog(String tag, String logMessage) {
-        Log.d(tag, logMessage);
+        //Log.d(tag, logMessage);
     }
 
     public static void showToast(Context context, String toastMessage) {

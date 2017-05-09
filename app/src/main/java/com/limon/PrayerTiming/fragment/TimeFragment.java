@@ -117,14 +117,14 @@ public class TimeFragment extends Fragment {
 
         // Initialize the Mobile Ads SDK.
         //TODO; Do I need this line of Code?
-        //MobileAds.initialize(mContext, "ca-app-pub-3940256099942544~3347511713");
+        MobileAds.initialize(mContext, "ca-app-pub-7856893858613226~5153369595");
 
         // Create an ad request. Check your logcat output for the hashed device ID to get test ads
         // on a physical device. e.g "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
 
         //TODO; Remove .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) before deploy
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
 
         // Start loading the ad in the background.

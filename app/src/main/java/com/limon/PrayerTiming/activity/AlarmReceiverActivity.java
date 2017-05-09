@@ -9,19 +9,16 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.app.Activity;
-import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.limon.PrayerTiming.Prayer;
 import com.limon.PrayerTiming.R;
-import com.limon.PrayerTiming.Result.Results;
 import com.limon.PrayerTiming.utility.AjanTune;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Optional;
 
 public class AlarmReceiverActivity extends Activity {
 

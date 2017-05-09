@@ -6,7 +6,6 @@ import android.content.Intent;
 
 import com.limon.PrayerTiming.GPS.GPSTracker;
 import com.limon.PrayerTiming.Prayer;
-import com.limon.PrayerTiming.Result.Results;
 import com.limon.PrayerTiming.service.FetchDataService;
 
 /**
