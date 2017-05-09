@@ -20,8 +20,8 @@ public class GPSTracker implements LocationListener {
     public static double latitude;
     public static double longitude;
 
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 30 kilometer
-    private static final long MIN_TIME_BW_UPDATES = 3000; // 1 minute
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1000; // 1 kilometer
+    private static final long MIN_TIME_BW_UPDATES = 60000 * 20; // 20 minute
 
     protected LocationManager locationManager;
 

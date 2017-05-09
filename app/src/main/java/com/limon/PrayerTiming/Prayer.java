@@ -106,7 +106,6 @@ public class Prayer {
         } catch (Exception exception) {
 
         }
-        Results.showLog(timeDifferenceCurentToNext + "");
         return timeDifferenceCurentToNext;
     }
 

@@ -86,14 +86,12 @@ public class FetchDataService extends Service {
                     }
                     fetchPrayerTimeData(timeZoneDetails.getTimeZoneId());
                 } catch (Exception ex) {
-                    Results.showLog("Screwed up? fetch time zone");
                     fetchPrayerTimeData(Helper.getTimeZoneString());
                 }
             }
 
             @Override
             public void onFailure(Call<TimeZoneDetails> call, Throwable t) {
-                Results.showLog("On failure fetch time zone string");
                 fetchPrayerTimeData(Helper.getTimeZoneString());
             }
         });
@@ -118,14 +116,12 @@ public class FetchDataService extends Service {
                     onSuccessFetchTimeData(prayerTime);
                 } catch (Exception ex) {
                     Results.showToast(getApplicationContext(), "Problem: Check network connection and/or location service");
-                    Results.showLog("Screwed up? fetch data");
                     onFailedFetchData();
                 }
             }
 
             @Override
             public void onFailure(Call<PrayerTime> call, Throwable t) {
-                Results.showLog("On failure fetch data");
                 onFailedFetchData();
             }
         });
