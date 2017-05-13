@@ -136,7 +136,8 @@ public class AlarmReceiverActivity extends Activity {
     private void showAlartNotification() {
 
         int currentPrayer = Prayer.getCurrentPrayer();
-        String prayerName;
+        String prayerName = "";
+        //TODO; Prayer name sometime not show correct one
         if (currentPrayer == 0) {
             prayerName = "Fajr";
         } else if (currentPrayer == 1) {
@@ -145,7 +146,7 @@ public class AlarmReceiverActivity extends Activity {
             prayerName = "Asr";
         } else if (currentPrayer == 3) {
             prayerName = "Maghrib";
-        } else {
+        } else if (currentPrayer == 4) {
             prayerName = "Isha";
         }
 

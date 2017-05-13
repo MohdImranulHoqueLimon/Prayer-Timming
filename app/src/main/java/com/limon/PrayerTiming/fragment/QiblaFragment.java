@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -32,8 +31,8 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
 
     @BindView(R.id.imageViewCompass)
     ImageView image;
-    @BindView(R.id.arrowImage)
-    ImageView mArrow;
+    //@BindView(R.id.arrowImage)
+    //ImageView mArrow;
 
     @BindView(R.id.qibla_ad_view)
     AdView mAdView;
@@ -88,6 +87,7 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
     }
 
     //TODO; should checkout if compass works with qibla direction perfectly
+    //TODO; check if device is able to display compass animation
     @Override
     public void onSensorChanged(SensorEvent event) {
 
@@ -99,19 +99,19 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
         qiblaDirectionAngle = (currentDegree + qiblaDirectionAngle) % 360;
-        RotateAnimation raDirection = new RotateAnimation(0, qiblaDirectionAngle, Animation.RELATIVE_TO_SELF,
-                0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        //RotateAnimation raDirection = new RotateAnimation(0, qiblaDirectionAngle, Animation.RELATIVE_TO_SELF,
+                //0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
         // how long the animation will take place
         ra.setDuration(210);
-        raDirection.setDuration(210);
+        //raDirection.setDuration(210);
         // set the animation after the end of the reservation status
         ra.setFillAfter(true);
-        raDirection.setFillAfter(true);
+        //raDirection.setFillAfter(true);
 
         // Start the animation
         image.startAnimation(ra);
-        mArrow.startAnimation(ra);
+        //mArrow.startAnimation(ra);
         currentDegree = -degree;
     }
 
@@ -126,7 +126,7 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
 
         ra.setDuration(210);
         ra.setFillAfter(true);
-        mArrow.startAnimation(ra);
+        //mArrow.startAnimation(ra);
     }
 
     @Override
