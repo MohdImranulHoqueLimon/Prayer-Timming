@@ -54,7 +54,6 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
 
         // Initialize the Mobile Ads SDK.
-        //TODO; Do I need this line of Code?
         MobileAds.initialize(mContext, "ca-app-pub-7856893858613226~5153369595");
 
         // Create an ad request. Check your logcat output for the hashed device ID to get test ads

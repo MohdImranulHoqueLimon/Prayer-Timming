@@ -113,10 +113,21 @@ public class TimeFragment extends Fragment {
         gpsTracker = new GPSTracker(getContext());
         this.currentLatitude = gpsTracker.getLatitude();
         this.currentLongitude = gpsTracker.getLongitude();
+
+        //Check every time if location permission need
+        if(!gpsTracker.canGetLocation()) {
+            if(mPrayer == null) {
+                mPrayer = new Prayer(getContext());
+            }
+            if(mPrayer.isNeedFetchTime()) {
+                Results.showToast(getContext(), "Please active location permission to get Prayer time in your area");
+            } else {
+                showTimingOnView();
+            }
+        }
         this.mContext = getContext();
 
         // Initialize the Mobile Ads SDK.
-        //TODO; Do I need this line of Code?
         MobileAds.initialize(mContext, "ca-app-pub-7856893858613226~5153369595");
 
         // Create an ad request. Check your logcat output for the hashed device ID to get test ads
@@ -124,7 +135,7 @@ public class TimeFragment extends Fragment {
 
         //TODO; Remove .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) before deploy
         AdRequest adRequest = new AdRequest.Builder()
-                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
 
         // Start loading the ad in the background.
@@ -157,7 +168,6 @@ public class TimeFragment extends Fragment {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                rootView.findViewById(R.id.anim).setVisibility(View.GONE);
                 showTimingOnView();
                 setStreetLocationName();
             }
@@ -180,7 +190,7 @@ public class TimeFragment extends Fragment {
     }
 
     public void showSettingsAlert() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 
         alertDialog.setTitle("GPS is settings");
         alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
@@ -261,6 +271,7 @@ public class TimeFragment extends Fragment {
 
     private void showTimingOnView() {
         try {
+            rootView.findViewById(R.id.anim).setVisibility(View.GONE);
             TimeDbHelper timeDbHelper = new TimeDbHelper(mContext);
             Timing timingObj = timeDbHelper.getPrayerTime(Helper.getCurrentDate("with space"));
 

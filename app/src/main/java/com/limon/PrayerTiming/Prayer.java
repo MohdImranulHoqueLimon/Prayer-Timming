@@ -114,6 +114,12 @@ public class Prayer {
 
         double currentLat = gpsTracker.getLatitude();
         double currentLong = gpsTracker.getLongitude();
+
+        //Though the user does not gave permission we cant fetch time
+        if(currentLat == 0.0 && currentLong == 0.0){
+            return false;
+        }
+
         gpsTracker = null;
 
         TimeDbHelper timeDbHelper = new TimeDbHelper(this.mContext);
@@ -167,9 +173,6 @@ public class Prayer {
     }
 
     public static int getCurrentPrayer() {
-        if (nextPrayerNumber == 0) {
-            return 4;
-        }
-        return nextPrayerNumber - 1;
+        return nextPrayerNumber;
     }
 }

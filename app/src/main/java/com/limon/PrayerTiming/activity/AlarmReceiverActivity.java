@@ -15,6 +15,7 @@ import android.view.WindowManager;
 
 import com.limon.PrayerTiming.Prayer;
 import com.limon.PrayerTiming.R;
+import com.limon.PrayerTiming.Result.Results;
 import com.limon.PrayerTiming.utility.AjanTune;
 
 import butterknife.ButterKnife;
@@ -51,9 +52,9 @@ public class AlarmReceiverActivity extends Activity {
         showAlartNotification();
         playAzanAlert();
 
-        if (!this.isRingtoneModeOk) {
+        /*if (!this.isRingtoneModeOk) {
             finish();
-        }
+        }*/
     }
 
     @Override
